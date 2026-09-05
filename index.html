@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdulsamad Ajayi · Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --base:#161616; --ink:#F3F1EC; --ink-soft:#9C9992; --line:#2E2E2E;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--base); color:var(--ink); font-family:'Manrope',sans-serif; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:920px; margin:0 auto; padding: 60px 28px 80px; }
+  h1{ font-family:'Fraunces',serif; font-weight:600; font-size: clamp(28px,4.5vw,42px); margin:0 0 8px; }
+  .sub{ color:var(--ink-soft); font-size:15.5px; max-width:56ch; margin-bottom:48px; }
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  @media (max-width:820px){ .grid{ grid-template-columns:1fr; } }
+  .card{
+    display:block; text-decoration:none; color:inherit;
+    border:1px solid var(--line); border-radius:12px; padding:26px 22px;
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover{ border-color: var(--accent); transform: translateY(-3px); }
+  .card .dot{ width:10px; height:10px; border-radius:50%; margin-bottom:18px; }
+  .card h2{ font-family:'Fraunces',serif; font-weight:600; font-size:19px; margin:0 0 8px; }
+  .card p{ font-size:13.5px; color:var(--ink-soft); margin:0; line-height:1.55; }
+  .card.ugc{ --accent:#C9603F; } .card.ugc:hover{ border-color:#C9603F; }
+  .card.uiux{ --accent:#6D5CE0; } .card.uiux:hover{ border-color:#6D5CE0; }
+  .card.dev{ --accent:#1F4FA6; } .card.dev:hover{ border-color:#1F4FA6; }
+  .card.ugc .dot{ background:#C9603F; } .card.uiux .dot{ background:#6D5CE0; } .card.dev .dot{ background:#1F4FA6; }
+  
+  /* Global Responsive Overrides */
+  html, body { overflow-x: hidden; }
+  * { overflow-wrap: break-word; }
+  @media (max-width: 600px) {
+    .wrap { padding: 40px 20px 60px; }
+    h1 { font-size: 28px; }
+    .card { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Abdulsamad Ajayi</h1>
+  <p class="sub">Three separate portfolios, one person. Pick the one relevant to what you're hiring for.</p>
+  <div class="grid">
+    <a class="card dev" href="dev-portfolio.html">
+      <div class="dot"></div>
+      <h2>Software Engineering</h2>
+      <p>Applications and tools built in Python, JavaScript, Flutter/Dart, and Firebase.</p>
+    </a>
+    <a class="card ugc" href="ugc-portfolio.html">
+      <div class="dot"></div>
+      <h2>UGC / AI Content</h2>
+      <p>AI-generated short-form content: scripts, voice, and produced video for brands. Skincare-first.</p>
+    </a>
+    <a class="card uiux" href="uiux-portfolio.html">
+      <div class="dot"></div>
+      <h2>UI/UX Design</h2>
+      <p>Product interfaces in Figma: wireframes through interactive prototypes.</p>
+    </a>
+  </div>
+</div>
+</body>
+</html>

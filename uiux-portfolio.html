@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdulsamad A.O. · UI/UX Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canvas: #E9E9EC;
+    --board: #FFFFFF;
+    --ink: #17171B;
+    --ink-soft: #6B6B75;
+    --line: #D6D6DC;
+    --violet: #6D5CE0;
+    --violet-soft: #EDEAFB;
+    --pink: #E0568C;
+    --radius: 8px;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background: var(--canvas); color: var(--ink);
+    font-family:'Space Grotesk', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  ::selection{ background: var(--violet); color:#fff; }
+  :focus-visible{ outline:2px solid var(--violet); outline-offset:2px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+  .coord{ font-family: var(--mono); font-size:11px; color: var(--ink-soft); }
+
+  /* ---------- NAV: layers panel style ---------- */
+  nav{ position:sticky; top:0; z-index:20; background: rgba(233,233,236,0.9); backdrop-filter: blur(8px); border-bottom:1px solid var(--line); }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding:14px 28px; }
+  .brandmark{ display:flex; align-items:center; gap:9px; font-weight:700; font-size:15px; }
+  .brandmark .sw{ width:12px; height:12px; border-radius:3px; background: var(--violet); }
+  nav ul{ list-style:none; display:flex; gap:22px; margin:0; padding:0; font-size:13.5px; font-weight:500; }
+  nav ul a{ text-decoration:none; color: var(--ink-soft); }
+  nav ul a:hover{ color: var(--ink); }
+  /* ---------- HAMBURGER MENU ---------- */
+  .hamburger{
+    display:none; background:none; border:none; cursor:pointer; padding:6px;
+    flex-direction:column; gap:5px; z-index:21;
+  }
+  .hamburger span{
+    display:block; width:22px; height:2px; background: var(--ink);
+    border-radius:2px; transition: transform .25s, opacity .25s;
+  }
+  .hamburger.is-open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+  .hamburger.is-open span:nth-child(2){ opacity:0; }
+  .hamburger.is-open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width:640px){
+    .hamburger{ display:flex; }
+    nav ul{
+      display:none;
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:0;
+      background: rgba(233,233,236,0.98);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding:0; margin:0;
+    }
+    nav ul.is-open{ display:flex; }
+    nav ul li{ border-bottom: 1px solid var(--line); list-style:none; }
+    nav ul li:last-child{ border-bottom:none; }
+    nav ul a{ display:block; padding:14px 28px; font-size:15px; }
+    nav ul a:hover{ background: var(--canvas); }
+  }
+
+  /* ---------- HERO: artboard on canvas ---------- */
+  header.hero{ padding: 56px 0 40px; }
+  .artboard-label{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .artboard-label .coord{ background: var(--violet); color:#fff; padding:2px 7px; border-radius:4px; font-weight:600; }
+  .board{
+    background: var(--board); border-radius: var(--radius);
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -36px rgba(23,23,27,0.28);
+    padding: 44px 40px;
+    position:relative;
+  }
+  .board::before{
+    content:''; position:absolute; inset:-8px;
+    border: 1.5px dashed var(--violet); border-radius: 12px; opacity:.4; pointer-events:none;
+  }
+  header.hero h1{ font-size: clamp(32px,5vw,50px); font-weight:700; margin:0; letter-spacing:-0.01em; }
+  header.hero .role{ margin-top:16px; max-width:56ch; color: var(--ink-soft); font-size:16.5px; }
+  .role-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+  .rtag{ font-family: var(--mono); font-size:11.5px; padding:5px 10px; border-radius:100px; background: var(--violet-soft); color: var(--violet); font-weight:600; }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding:56px 0; }
+  .sec-label{ display:flex; align-items:center; gap:10px; margin-bottom:30px; }
+  .sec-label .coord{ background: var(--pink); color:#fff; padding:2px 7px; border-radius:4px; font-weight:600; }
+  .sec-label h2{ font-size:24px; font-weight:700; margin:0; }
+
+  /* ---------- CASE STUDIES: artboard grid ---------- */
+  .board-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:26px; }
+  @media (max-width:760px){ .board-grid{ grid-template-columns:1fr; } }
+  .case{
+    background: var(--board); border:1px solid var(--line); border-radius: var(--radius);
+    overflow:hidden; position:relative;
+  }
+  .case-tag{
+    position:absolute; top:12px; left:12px; z-index:2;
+    font-family:var(--mono); font-size:10.5px; font-weight:600;
+    background: var(--ink); color:#fff; padding:3px 8px; border-radius:4px;
+  }
+  .case-canvas{
+    aspect-ratio: 4/3; background: var(--canvas);
+    display:flex; align-items:center; justify-content:center; padding:22px;
+    position:relative;
+  }
+  .mock-screen{
+    width:64%; background:#fff; border-radius:10px; border:1px solid var(--line);
+    padding:14px; display:flex; flex-direction:column; gap:8px;
+    box-shadow: 0 14px 26px -18px rgba(23,23,27,0.35);
+  }
+  .mock-nub{ width:34%; height:6px; border-radius:3px; background: var(--violet); opacity:.7; align-self:center; }
+  .mock-block{ height:52px; border-radius:6px; background: var(--violet-soft); border:1px dashed var(--violet); }
+  .mock-block.two{ background:#FCE9F1; border-color: var(--pink); height:32px; }
+  .mock-line{ height:5px; border-radius:3px; background: var(--ink-soft); opacity:.2; }
+  .mock-line.w60{ width:60%; }
+  .mock-line.w40{ width:40%; }
+  .mock-pill{ height:24px; width:70%; border-radius:100px; background: var(--violet); align-self:center; margin-top:2px; }
+  .case-meta{ padding:16px 18px 20px; }
+  .case-meta .coord{ margin-bottom:6px; display:block; }
+  .case-meta h3{ font-size:17px; margin:0 0 6px; font-weight:700; }
+  .case-meta p{ font-size:13.5px; color: var(--ink-soft); margin:0 0 10px; max-width:44ch; }
+  .case-canvas img.shot{
+    max-width:100%; max-height:100%; width:auto; height:auto;
+    object-fit:contain; border-radius:6px;
+    box-shadow: 0 14px 26px -18px rgba(23,23,27,0.35);
+  }
+  .case-canvas.has-gallery{ cursor:pointer; }
+  .case-canvas.has-gallery:hover img.shot{ transform: scale(1.02); }
+  .case-canvas.has-gallery img.shot{ transition: transform .2s ease; }
+  .shot-count{
+    position:absolute; bottom:10px; right:10px; z-index:2;
+    font-family: var(--mono); font-size:10.5px; font-weight:600;
+    background: var(--ink); color:#fff; padding:3px 8px; border-radius:4px;
+  }
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox{
+    position:fixed; inset:0; z-index:100;
+    background: rgba(23,23,27,0.92);
+    display:none; align-items:center; justify-content:center;
+    padding: 40px 20px;
+  }
+  .lightbox.is-open{ display:flex; }
+  .lightbox img{
+    max-width:100%; max-height:80vh; border-radius:8px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5);
+  }
+  .lightbox-inner{ position:relative; display:flex; flex-direction:column; align-items:center; gap:14px; max-width:900px; width:100%; }
+  .lightbox-caption{ font-family: var(--mono); font-size:12.5px; color:#B9B9C2; text-align:center; }
+  .lightbox-close{
+    position:absolute; top:-44px; right:0;
+    background:none; border:none; color:#fff; font-size:26px; cursor:pointer;
+    width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  }
+  .lightbox-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    background: rgba(255,255,255,0.12); border:none; color:#fff;
+    width:42px; height:42px; border-radius:50%; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-size:18px;
+  }
+  .lightbox-nav:hover{ background: rgba(255,255,255,0.22); }
+  .lightbox-nav.prev{ left:-56px; }
+  .lightbox-nav.next{ right:-56px; }
+  @media (max-width:760px){
+    .lightbox-nav.prev{ left:4px; }
+    .lightbox-nav.next{ right:4px; }
+    .lightbox-close{ top:4px; right:4px; }
+  }
+  .case-meta .steps{ display:flex; flex-wrap:wrap; gap:6px; }
+  .step-chip{ font-family:var(--mono); font-size:10.5px; padding:3px 7px; border-radius:4px; background: var(--canvas); color: var(--ink-soft); }
+  .proto-link{
+    display:inline-flex; align-items:center; gap:5px;
+    font-family: var(--mono); font-size:11.5px; font-weight:600;
+    color: var(--violet); text-decoration:none; margin-top:12px;
+  }
+  .proto-link:hover{ text-decoration:underline; }
+
+  /* ---------- PROCESS: layers list ---------- */
+  .layers{ background: var(--board); border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; }
+  .layer{ display:flex; align-items:center; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); }
+  .layer:last-child{ border-bottom:none; }
+  .layer .swatch{ width:20px; height:20px; border-radius:5px; flex-shrink:0; }
+  .layer h4{ margin:0; font-size:14.5px; font-weight:700; }
+  .layer p{ margin:2px 0 0; font-size:13px; color: var(--ink-soft); }
+  .layer .coord{ margin-left:auto; flex-shrink:0; }
+
+  /* ---------- CONTACT ---------- */
+  footer.contact{ padding: 60px 0 56px; }
+  .contact-panel{
+    background: var(--board); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 32px; display:grid; grid-template-columns:1.2fr 1fr; gap:32px; align-items:start;
+  }
+  @media (max-width:700px){ .contact-panel{ grid-template-columns:1fr; } }
+  footer.contact h2{ font-size:26px; margin:0 0 10px; font-weight:700; }
+  footer.contact p{ color: var(--ink-soft); font-size:14.5px; max-width:44ch; margin:0; }
+  .info-list{ font-family: var(--mono); font-size:13px; }
+  .info-list div{ padding:8px 0; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:10px; }
+  .info-list div:last-child{ border-bottom:none; }
+  .info-list .k{ color: var(--ink-soft); }
+  .bottom-line{ margin-top:28px; font-family: var(--mono); font-size:11.5px; color: var(--ink-soft); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .bottom-line a{ text-decoration:underline; }
+
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+  /* Global Responsive Overrides */
+  html, body { overflow-x: hidden; }
+  * { overflow-wrap: break-word; }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+    .board { padding: 24px 20px; }
+    .board::before { inset: -5px; }
+    header.hero h1 { font-size: 28px; }
+    .case-canvas { padding: 16px; }
+    .case-meta { padding: 16px; }
+    .contact-panel { padding: 20px; }
+    .bottom-line { flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brandmark"><span class="sw"></span>Abdulsamad A.O. · Design</div>
+    <ul id="nav-menu">
+      <li><a href="index.html">↩ Hub</a></li>
+      <li><a href="#work">Case studies</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="artboard-label"><span class="coord">FRAME 01</span><span class="coord">1080 × 640</span></div>
+    <div class="board">
+      <h1>UI/UX design, wireframe to prototype.</h1>
+      <p class="role">I design product interfaces in Figma: user flows, wireframes, and interactive high-fidelity prototypes. Recent work spans a transit navigation app, an Airbnb sign-up flow redesign, a crypto onboarding flow built on custom icons, and user personas for a meditation app.</p>
+      <div class="role-tags">
+        <span class="rtag">Wireframing</span>
+        <span class="rtag">Prototyping</span>
+        <span class="rtag">User-Centered Design</span>
+        <span class="rtag">User Research</span>
+        <span class="rtag">Figma</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-label"><span class="coord">02</span><h2>Case studies</h2></div>
+    <div class="board-grid">
+
+      <div class="case">
+        <span class="case-tag">Team project</span>
+        <div class="case-canvas has-gallery" data-gallery="routify">
+          <img class="shot" src="img/routify-01.png" alt="Routify app home screen showing start and stop route entry">
+          <span class="shot-count">1 / 3 · view all</span>
+        </div>
+        <div class="case-meta">
+          <span class="coord">ROUTIFY / TRANSIT-NAV</span>
+          <h3>Routify · transit navigation</h3>
+          <p>Public transportation app designed with a team, guiding commuters step-by-step between checkpoints, from route search to suggested-routes comparison.</p>
+          <div class="steps">
+            <span class="step-chip">Wireframe</span>
+            <span class="step-chip">Lo-fi</span>
+            <span class="step-chip">Hi-fi</span>
+            <span class="step-chip">Prototype</span>
+          </div>
+          <a class="proto-link" href="https://www.figma.com/proto/aGllv8iaqjU8xrNq9KmfmX/UI-UX-Adv-Project-2?page-id=1%3A6&node-id=849-3281&viewport=257%2C-120%2C0.04&t=xgnl40tJbZj2OTXG-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=665%3A3427" target="_blank" rel="noopener">View prototype ↗</a>
+        </div>
+      </div>
+
+      <div class="case">
+        <span class="case-tag">In progress</span>
+        <div class="case-canvas">
+          <div class="mock-screen">
+            <div class="mock-nub"></div>
+            <div class="mock-block two"></div>
+            <div class="mock-block" style="height:40px;"></div>
+            <div class="mock-line w60"></div>
+            <div class="mock-pill"></div>
+          </div>
+        </div>
+        <div class="case-meta">
+          <span class="coord">CAMPUS-NAV / VOICE</span>
+          <h3>Campus navigation, voice-guided</h3>
+          <p>Wayfinding flows for students and visitors, designed alongside a voice-guidance build for the final-year project.</p>
+          <div class="steps">
+            <span class="step-chip">User flows</span>
+            <span class="step-chip">Wireframe</span>
+            <span class="step-chip">In review</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <span class="case-tag">Personal project</span>
+        <div class="case-canvas has-gallery" data-gallery="airbnb">
+          <img class="shot" src="img/airbnb-01.png" alt="Airbnb listings browse screen">
+          <span class="shot-count">1 / 3 · view all</span>
+        </div>
+        <div class="case-meta">
+          <span class="coord">AIRBNB / SIGN-UP FLOW</span>
+          <h3>Airbnb, sign-up &amp; log-in redesign</h3>
+          <p>Rebuilt Airbnb's full account access flow: from the nav menu, through the log-in/sign-up modal, to phone verification and social sign-in options.</p>
+          <div class="steps">
+            <span class="step-chip">Flow mapping</span>
+            <span class="step-chip">Hi-fi</span>
+            <span class="step-chip">Prototype</span>
+          </div>
+          <a class="proto-link" href="https://www.figma.com/proto/buiRWXAzaf9wipjqgUMpqA/Airbnb?node-id=6-245&p=f&viewport=47%2C330%2C0.02&t=cFAPhdP0GZmgIqkf-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1" target="_blank" rel="noopener">View prototype ↗</a>
+        </div>
+      </div>
+
+      <div class="case">
+        <span class="case-tag">Personal project</span>
+        <div class="case-canvas has-gallery" data-gallery="crypto">
+          <img class="shot" src="img/crypto-04.png" alt="Crypto app screen with custom illustrated icon">
+          <span class="shot-count">1 / 6 · view all</span>
+        </div>
+        <div class="case-meta">
+          <span class="coord">CRYPTO APP / CUSTOM ICONS</span>
+          <h3>Crypto onboarding, custom shapes</h3>
+          <p>Designed a crypto app onboarding flow built around custom illustrated icons and shapes made from scratch in Figma, from account creation through ID verification.</p>
+          <div class="steps">
+            <span class="step-chip">Custom icons</span>
+            <span class="step-chip">Onboarding flow</span>
+            <span class="step-chip">Prototype</span>
+          </div>
+          <a class="proto-link" href="https://www.figma.com/proto/FM3D9U2x6P1bkoytt0JGCn/redesign?node-id=28-243&page-id=0%3A1&starting-point-node-id=13%3A94&scaling=contain&content-scaling=fixed&t=ZlLaaDxxhZxMd1UZ-1" target="_blank" rel="noopener">View prototype ↗</a>
+        </div>
+      </div>
+
+      <div class="case">
+        <span class="case-tag">Research</span>
+        <div class="case-canvas has-gallery" data-gallery="persona">
+          <img class="shot" src="img/persona-esther.png" alt="User persona card for Esther Ajao, meditation app user">
+          <span class="shot-count">1 / 3 · view all</span>
+        </div>
+        <div class="case-meta">
+          <span class="coord">MEDITATION APP / PERSONAS</span>
+          <h3>User personas, meditation app</h3>
+          <p>Built three user personas for a meditation app, translating research into goals, needs, and pain points to guide the design direction.</p>
+          <div class="steps">
+            <span class="step-chip">User research</span>
+            <span class="step-chip">Persona design</span>
+            <span class="step-chip">Synthesis</span>
+          </div>
+          <a class="proto-link" href="https://www.figma.com/proto/rq3hVO1kbIvwVlKB9S8xCc/personas?node-id=44-10&page-id=0%3A1&scaling=contain&content-scaling=fixed&t=8WbDs3Gc1ByxUiEA-1" target="_blank" rel="noopener">View prototype ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-label"><span class="coord">03</span><h2>Process</h2></div>
+    <div class="layers">
+      <div class="layer">
+        <div class="swatch" style="background:var(--violet);"></div>
+        <div><h4>User flows</h4><p>Map the journey before touching a screen: what the user needs at each step.</p></div>
+        <span class="coord">LAYER 4</span>
+      </div>
+      <div class="layer">
+        <div class="swatch" style="background:#B8AEF2;"></div>
+        <div><h4>Low-fidelity wireframes</h4><p>Structure and hierarchy first, no color or type decisions yet.</p></div>
+        <span class="coord">LAYER 3</span>
+      </div>
+      <div class="layer">
+        <div class="swatch" style="background:var(--pink);"></div>
+        <div><h4>High-fidelity screens</h4><p>Real type, color, and spacing. The screens start looking shippable.</p></div>
+        <span class="coord">LAYER 2</span>
+      </div>
+      <div class="layer">
+        <div class="swatch" style="background:var(--ink);"></div>
+        <div><h4>Interactive prototype</h4><p>Linked, clickable flows in Figma for testing and stakeholder review.</p></div>
+        <span class="coord">LAYER 1</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <div class="sec-label"><span class="coord">04</span><h2>Contact</h2></div>
+    <div class="contact-panel">
+      <div>
+        <h2 style="font-size:22px;">Open to design briefs and internships.</h2>
+        <p>Best fit: product interfaces, wireframe-to-prototype work, and app UX flows. Send a brief and I'll follow up within a few days.</p>
+      </div>
+      <div class="info-list">
+        <div><span class="k">name</span><span>Abdulsamad A.O.</span></div>
+        <div><span class="k">email</span><span>olasamad21@gmail.com</span></div>
+        <div><span class="k">based in</span><span>Nigeria</span></div>
+        <div><span class="k">tool</span><span>Figma</span></div>
+      </div>
+    </div>
+    <div class="bottom-line">
+      <span>© Abdulsamad A.O.</span>
+      <span>Also see: <a href="ugc-portfolio.html">UGC / AI content work</a> · <a href="dev-portfolio.html">Software engineering</a></span>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-nav prev" id="lightbox-prev" aria-label="Previous image">&#8249;</button>
+    <img id="lightbox-img" src="" alt="">
+    <button class="lightbox-nav next" id="lightbox-next" aria-label="Next image">&#8250;</button>
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var galleries = {
+      routify: ['img/routify-01.png', 'img/routify-02.png', 'img/routify-03.png'],
+      airbnb: ['img/airbnb-01.png', 'img/airbnb-02.png', 'img/airbnb-03.png'],
+      crypto: ['img/crypto-01.png', 'img/crypto-02.png', 'img/crypto-03.png', 'img/crypto-04.png', 'img/crypto-05.png', 'img/crypto-06.png'],
+      persona: ['img/persona-esther.png', 'img/persona-marcus.png', 'img/persona-amira.png']
+    };
+
+    var lightbox = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    var lbCaption = document.getElementById('lightbox-caption');
+    var currentGallery = [];
+    var currentIndex = 0;
+
+    function openLightbox(key, index){
+      currentGallery = galleries[key];
+      currentIndex = index || 0;
+      renderLightbox();
+      lightbox.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    function renderLightbox(){
+      lbImg.src = currentGallery[currentIndex];
+      lbCaption.textContent = (currentIndex + 1) + ' / ' + currentGallery.length;
+    }
+
+    function nextImage(){
+      currentIndex = (currentIndex + 1) % currentGallery.length;
+      renderLightbox();
+    }
+
+    function prevImage(){
+      currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+      renderLightbox();
+    }
+
+    document.querySelectorAll('.case-canvas.has-gallery').forEach(function(canvas){
+      canvas.addEventListener('click', function(){
+        openLightbox(canvas.getAttribute('data-gallery'), 0);
+      });
+    });
+
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox-next').addEventListener('click', nextImage);
+    document.getElementById('lightbox-prev').addEventListener('click', prevImage);
+    lightbox.addEventListener('click', function(e){
+      if(e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e){
+      if(!lightbox.classList.contains('is-open')) return;
+      if(e.key === 'Escape') closeLightbox();
+      if(e.key === 'ArrowRight') nextImage();
+      if(e.key === 'ArrowLeft') prevImage();
+    });
+
+    // Hamburger menu
+    var hbtn = document.getElementById('hamburger');
+    var hmenu = document.getElementById('nav-menu');
+    if(hbtn && hmenu){
+      hbtn.addEventListener('click', function(){
+        var open = hmenu.classList.toggle('is-open');
+        hbtn.classList.toggle('is-open', open);
+        hbtn.setAttribute('aria-expanded', open);
+      });
+      hmenu.querySelectorAll('a').forEach(function(link){
+        link.addEventListener('click', function(){
+          hmenu.classList.remove('is-open');
+          hbtn.classList.remove('is-open');
+          hbtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  })();
+</script>
+</body>
+</html>
