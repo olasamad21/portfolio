@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Abdulsamad A.O. · UI/UX Designer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23161616%22/><text x=%2250%22 y=%2250%22 font-family=%22sans-serif%22 font-size=%2250%22 font-weight=%22bold%22 fill=%22%23fff%22 alignment-baseline=%22middle%22 text-anchor=%22middle%22>A</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -216,15 +217,21 @@
   /* Global Responsive Overrides */
   html, body { overflow-x: hidden; }
   * { overflow-wrap: break-word; }
+  .lightbox-dots { display: none; }
+  .lightbox-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: background 0.3s; }
+  .lightbox-dot.active { background: #fff; }
   @media (max-width: 640px) {
     .wrap { padding: 0 20px; }
     .board { padding: 24px 20px; }
     .board::before { inset: -5px; }
     header.hero h1 { font-size: 28px; }
-    .case-canvas { padding: 16px; }
-    .case-meta { padding: 16px; }
+    .case-canvas { padding: 16px; position: relative; z-index: 10; }
+    .case-meta { padding: 16px; position: relative; z-index: 5; }
     .contact-panel { padding: 20px; }
     .bottom-line { flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+    .lightbox-nav { display: none !important; }
+    .lightbox-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+    #lightbox-img { max-height: 65vh; }
   }
 </style>
 </head>
@@ -412,6 +419,8 @@
         <div><span class="k">email</span><span>olasamad21@gmail.com</span></div>
         <div><span class="k">based in</span><span>Nigeria</span></div>
         <div><span class="k">tool</span><span>Figma</span></div>
+        <div><span class="k">linkedin</span><span><a href="https://www.linkedin.com/in/ajayi-abdulsamad-b4757b307" target="_blank">ajayi-abdulsamad</a></span></div>
+        <div><span class="k">linktree</span><span><a href="https://linktr.ee/olasamad21" target="_blank">linktr.ee/olasamad21</a></span></div>
       </div>
     </div>
     <div class="bottom-line">
@@ -428,6 +437,7 @@
     <img id="lightbox-img" src="" alt="">
     <button class="lightbox-nav next" id="lightbox-next" aria-label="Next image">&#8250;</button>
     <div class="lightbox-caption" id="lightbox-caption"></div>
+    <div class="lightbox-dots" id="lightbox-dots"></div>
   </div>
 </div>
 
@@ -443,6 +453,7 @@
     var lightbox = document.getElementById('lightbox');
     var lbImg = document.getElementById('lightbox-img');
     var lbCaption = document.getElementById('lightbox-caption');
+    var lbDots = document.getElementById('lightbox-dots');
     var currentGallery = [];
     var currentIndex = 0;
 
@@ -462,6 +473,13 @@
     function renderLightbox(){
       lbImg.src = currentGallery[currentIndex];
       lbCaption.textContent = (currentIndex + 1) + ' / ' + currentGallery.length;
+      
+      lbDots.innerHTML = '';
+      for (var i = 0; i < currentGallery.length; i++) {
+        var dot = document.createElement('div');
+        dot.className = 'lightbox-dot' + (i === currentIndex ? ' active' : '');
+        lbDots.appendChild(dot);
+      }
     }
 
     function nextImage(){
@@ -473,6 +491,17 @@
       currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
       renderLightbox();
     }
+
+    var touchStartX = 0;
+    var touchEndX = 0;
+    lightbox.addEventListener('touchstart', function(e){
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+    lightbox.addEventListener('touchend', function(e){
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX < touchStartX - 40) nextImage();
+      if (touchEndX > touchStartX + 40) prevImage();
+    }, {passive: true});
 
     document.querySelectorAll('.case-canvas.has-gallery').forEach(function(canvas){
       canvas.addEventListener('click', function(){

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Abdulsamad Ajayi · Portfolio</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23161616%22/><text x=%2250%22 y=%2250%22 font-family=%22sans-serif%22 font-size=%2250%22 font-weight=%22bold%22 fill=%22%23fff%22 alignment-baseline=%22middle%22 text-anchor=%22middle%22>A</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +16,9 @@
   body{ margin:0; background:var(--base); color:var(--ink); font-family:'Manrope',sans-serif; -webkit-font-smoothing:antialiased; }
   .wrap{ max-width:920px; margin:0 auto; padding: 60px 28px 80px; }
   h1{ font-family:'Fraunces',serif; font-weight:600; font-size: clamp(28px,4.5vw,42px); margin:0 0 8px; }
-  .sub{ color:var(--ink-soft); font-size:15.5px; max-width:56ch; margin-bottom:48px; }
+  .sub{ color:var(--ink-soft); font-size:15.5px; max-width:56ch; margin-bottom:20px; }
+  .social-links{ margin-bottom:48px; display:flex; gap:20px; font-size:14.5px; }
+  .social-links a{ color:var(--ink); text-decoration:underline; font-weight:600; }
   .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
   @media (max-width:820px){ .grid{ grid-template-columns:1fr; } }
   .card{
@@ -46,6 +49,10 @@
 <div class="wrap">
   <h1>Abdulsamad Ajayi</h1>
   <p class="sub">Three separate portfolios, one person. Pick the one relevant to what you're hiring for.</p>
+  <div class="social-links">
+    <a href="https://linktr.ee/olasamad21" target="_blank">Linktree ↗</a>
+    <a href="https://www.linkedin.com/in/ajayi-abdulsamad-b4757b307" target="_blank">LinkedIn ↗</a>
+  </div>
   <div class="grid">
     <a class="card dev" href="dev-portfolio.html">
       <div class="dot"></div>
