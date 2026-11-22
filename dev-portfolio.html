@@ -3,394 +3,278 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Abdulsamad Ajayi · Software Engineer</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23161616%22/><text x=%2250%22 y=%2250%22 font-family=%22sans-serif%22 font-size=%2250%22 font-weight=%22bold%22 fill=%22%23fff%22 alignment-baseline=%22middle%22 text-anchor=%22middle%22>A</text></svg>">
+<title>Software · Abdulsamad Ajayi</title>
+<meta name="description" content="Software projects by Abdulsamad Ajayi: full-stack apps, ML tools, desktop software and dashboards in Python, Flutter and Firebase.">
+<meta name="theme-color" content="#0A0A0C">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><linearGradient id=%22g%22 x1=%220%22 x2=%221%22><stop offset=%220%22 stop-color=%22%235ED3D9%22/><stop offset=%22.5%22 stop-color=%22%23A493FF%22/><stop offset=%221%22 stop-color=%22%23FF8A5C%22/></linearGradient></defs><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22url(%23g)%22/><text x=%2250%22 y=%2254%22 font-family=%22Georgia,serif%22 font-style=%22italic%22 font-size=%2258%22 fill=%22%230A0A0C%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22>a</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --base: #EBEEF2;
-    --base-2: #DFE3E9;
-    --panel: #FFFFFF;
-    --ink: #10151C;
-    --ink-soft: #545F6E;
-    --line: #C7CEDA;
-    --blue: #1F4FA6;
-    --blue-soft: #E4EAF7;
-    --redline: #C4432B;
-    --ok: #2E7D4F;
-    --radius: 3px;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'IBM Plex Sans', sans-serif;
-  }
-  *{ box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
-  body{
-    margin:0; background: var(--base); color: var(--ink);
-    font-family: var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased;
-    background-image:
-      linear-gradient(var(--base-2) 1px, transparent 1px),
-      linear-gradient(90deg, var(--base-2) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-  a{ color:inherit; }
-  ::selection{ background: var(--blue); color:#fff; }
-  :focus-visible{ outline: 2px solid var(--blue); outline-offset:2px; }
-  .wrap{ max-width: 980px; margin:0 auto; padding: 0 24px; }
-  .mono{ font-family: var(--mono); }
-  .label{
-    font-family: var(--mono); font-size:11.5px; font-weight:600;
-    letter-spacing:.06em; text-transform:uppercase; color: var(--blue);
-  }
-
-  /* ---------- NAV: tab bar ---------- */
-  nav{
-    position:sticky; top:0; z-index:20;
-    background: var(--panel); border-bottom:1px solid var(--line);
-  }
-  .tabbar{ display:flex; align-items:stretch; }
-  .tab{
-    font-family: var(--mono); font-size:13px; font-weight:500;
-    padding: 13px 20px; border-right:1px solid var(--line);
-    color: var(--ink-soft); text-decoration:none; white-space:nowrap;
-  }
-  .tab:hover{ color: var(--ink); background: var(--blue-soft); }
-  .tab.active{ color: var(--ink); background: var(--base); border-bottom:2px solid var(--blue); margin-bottom:-1px; }
-  @media (max-width:700px){ .tabbar{ overflow-x:auto; } }
-
-  /* ---------- HERO: editor window ---------- */
-  header.hero{ padding: 48px 0 0; }
-  .window{
-    background: var(--panel); border:1px solid var(--line); border-radius: 6px;
-    overflow:hidden; box-shadow: 0 24px 48px -32px rgba(16,21,28,0.25);
-  }
-  .titlebar{
-    display:flex; align-items:center; gap:8px;
-    padding: 10px 14px; border-bottom:1px solid var(--line); background: var(--base-2);
-  }
-  .titlebar .dot{ width:10px; height:10px; border-radius:50%; background: var(--line); }
-  .titlebar .path{ margin-left:8px; font-family:var(--mono); font-size:12px; color: var(--ink-soft); }
-  .editor{ padding: 36px 32px 40px; }
-  .editor .gutter-line{ display:flex; gap:20px; }
-  .editor .gutter{ font-family:var(--mono); font-size:13px; color: var(--line); text-align:right; width:22px; flex-shrink:0; padding-top:3px; }
-  .editor h1{
-    font-family: var(--sans); font-weight:700; margin:0;
-    font-size: clamp(30px, 5vw, 46px); line-height:1.1; letter-spacing:-0.01em;
-  }
-  .editor .kw{ color: var(--blue); font-family:var(--mono); font-weight:600; }
-  .role-line{ margin-top:16px; max-width:56ch; color: var(--ink-soft); font-size:16px; }
-  .role-line .str{ color: var(--ok); font-family: var(--mono); }
-  .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
-  .tag-pill{
-    font-family: var(--mono); font-size:12px; padding:5px 10px;
-    border:1px solid var(--line); border-radius: var(--radius); background: var(--base);
-    color: var(--ink-soft);
-  }
-  .cursor{ display:inline-block; width:8px; height:1.1em; background: var(--blue); vertical-align:text-bottom; animation: blink 1s step-end infinite; margin-left:2px; }
-  @keyframes blink{ 50%{ opacity:0; } }
-
-  /* ---------- SECTION HEAD ---------- */
-  section{ padding: 56px 0; border-bottom:1px solid var(--line); }
-  .sec-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:28px; }
-  .sec-head h2{ font-size:22px; margin:0; font-weight:700; }
-  .sec-head .count{ font-family:var(--mono); font-size:13px; color: var(--ink-soft); }
-  .rule{ flex:1; height:1px; background: var(--line); }
-
-  /* ---------- ABOUT ---------- */
-  .about-body{ display:grid; grid-template-columns: 1fr 260px; gap:36px; }
-  @media (max-width:700px){ .about-body{ grid-template-columns:1fr; } }
-  .about-body p{ font-size:16px; color: var(--ink); max-width:60ch; }
-  .about-body p + p{ color: var(--ink-soft); margin-top:12px; }
-  .stat-block{ border:1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
-  .stat-row{ display:flex; justify-content:space-between; padding:10px 14px; font-family:var(--mono); font-size:12.5px; border-bottom:1px solid var(--line); }
-  .stat-row:last-child{ border-bottom:none; }
-  .stat-row .k{ color: var(--ink-soft); }
-  .stat-row .v{ font-weight:600; }
-
-  /* ---------- PROJECTS: file list ---------- */
-  .filelist{ border:1px solid var(--line); border-radius: var(--radius); background: var(--panel); overflow:hidden; }
-  .file{ border-bottom:1px solid var(--line); }
-  .file:last-child{ border-bottom:none; }
-  .file-head{
-    display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:default;
-  }
-  .ext{
-    font-family: var(--mono); font-size:11px; font-weight:700; color:#fff;
-    background: var(--blue); border-radius:3px; padding:3px 6px; flex-shrink:0;
-  }
-  .ext.wip{ background: var(--ink-soft); }
-  .file-name{ font-family: var(--mono); font-weight:600; font-size:15px; }
-  .file-stack{ margin-left:auto; font-family:var(--mono); font-size:11.5px; color: var(--ink-soft); text-align:right; }
-  .file-body{ padding: 0 18px 20px 48px; }
-  .file-body p{ margin:0 0 10px; color: var(--ink-soft); font-size:14.5px; max-width:64ch; }
-  .file-body ul{ margin:0; padding-left:18px; font-size:14px; color: var(--ink); }
-  .file-body li{ margin-bottom:4px; }
-  .status-tag{
-    font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:100px;
-    border:1px solid var(--ok); color: var(--ok); margin-left:12px; flex-shrink:0;
-  }
-  .status-tag.progress{ border-color: var(--redline); color: var(--redline); }
-
-  /* ---------- SKILLS: schematic grid ---------- */
-  .skill-groups{ display:grid; grid-template-columns: repeat(3,1fr); gap:1px; background: var(--line); border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; }
-  @media (max-width:700px){ .skill-groups{ grid-template-columns:1fr 1fr; } }
-  @media (max-width:460px){ .skill-groups{ grid-template-columns:1fr; } }
-  .skill-cell{ background: var(--panel); padding:16px 16px 18px; }
-  .skill-cell .label{ margin-bottom:10px; display:block; }
-  .skill-cell .items{ font-size:13.5px; color: var(--ink); line-height:1.9; }
-
-  /* ---------- CONTACT ---------- */
-  footer.contact{ padding: 56px 0 64px; }
-  .terminal{
-    background: #10151C; color:#DCE3EC; border-radius:6px; padding: 22px 24px;
-    font-family: var(--mono); font-size:13.5px; line-height:1.9;
-  }
-  .terminal .prompt{ color: var(--ok); }
-  .terminal .path2{ color:#7FA6E8; }
-  .terminal a{ color:#fff; text-decoration underline; }
-  .bottom-line{
-    margin-top:32px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
-    font-family: var(--mono); font-size:12px; color: var(--ink-soft);
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior:auto; }
-    .cursor{ animation:none; }
-  }
-
-  /* Global Responsive Overrides */
-  html, body { overflow-x: hidden; }
-  * { overflow-wrap: break-word; }
-  @media (max-width: 640px) {
-    .wrap { padding: 0 16px; }
-    .editor { padding: 24px 16px; }
-    .editor h1 { font-size: clamp(14px, 6vw, 24px); white-space: nowrap; word-break: normal; }
-    .file-head { flex-wrap: wrap; gap: 8px; padding: 16px; }
-    .file-stack { margin-left: 0; width: 100%; text-align: left; margin-top: 4px; }
-    .file-body { padding: 0 16px 20px 16px; }
-    .terminal { padding: 16px; }
-    .stat-row { flex-wrap: wrap; gap: 4px; }
-    .sec-head { flex-wrap: wrap; }
-    .bottom-line { flex-direction: column; gap: 12px; align-items: center; text-align: center; }
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
-<body>
+<body class="t-dev">
+<div class="curtain" aria-hidden="true"><span>Software</span></div>
+<div class="progress" aria-hidden="true"></div>
 
-<nav>
-  <div class="tabbar wrap" style="padding:0;">
-    <a class="tab" href="index.html">↩ hub</a>
-    <a class="tab active" href="#about">about.md</a>
-    <a class="tab" href="#projects">projects/</a>
-    <a class="tab" href="#skills">skills.json</a>
-    <a class="tab" href="#contact">contact.sh</a>
-  </div>
-</nav>
-
-<header class="hero">
+<header class="nav">
   <div class="wrap">
-    <div class="window">
-      <div class="titlebar">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        <span class="path">~/portfolio/about.md</span>
-      </div>
-      <div class="editor">
-        <div class="label" style="margin-bottom:10px;">Software Engineering Student · Lead City University</div>
-        <h1>dev = <span class="str" style="font-family:var(--sans); font-weight:700;">"Abdulsamad Ajayi"</span><span class="cursor"></span></h1>
-        <p class="role-line">Final-year Software Engineering student building practical, working software: desktop apps, data dashboards, and cloud-connected tools, in <span class="str">Python</span>, <span class="str">Frontend</span>, <span class="str">Dart</span>, and <span class="str">Firebase</span>. Six months in production systems at NITDA.</p>
-        <div class="tags">
-          <span class="tag-pill">Python</span>
-          <span class="tag-pill">Frontend</span>
-          <span class="tag-pill">Flutter / Dart</span>
-          <span class="tag-pill">Firebase</span>
-          <span class="tag-pill">Streamlit</span>
-          <span class="tag-pill">Applied AI/ML Tools</span>
-          <span class="tag-pill">Git / GitHub</span>
-        </div>
+    <div class="nav-inner">
+      <a class="brand" href="index.html" aria-label="Abdulsamad Ajayi, home"><span class="brand-mark">a</span>Abdulsamad Ajayi</a>
+      <ul class="nav-links">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="dev-portfolio.html" class="active">Software</a></li>
+        <li><a href="uiux-portfolio.html">Design</a></li>
+        <li><a href="ugc-portfolio.html">Content</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a class="btn sm" href="#contact" data-magnetic=".25">Let's talk <span class="arr">→</span></a>
+        <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
       </div>
     </div>
   </div>
 </header>
+<nav class="menu" id="menu" aria-label="Mobile">
+  <a href="index.html"><span>Home<small>01</small></span></a>
+  <a href="dev-portfolio.html"><span>Software<small>02</small></span></a>
+  <a href="uiux-portfolio.html"><span>Design<small>03</small></span></a>
+  <a href="ugc-portfolio.html"><span>Content<small>04</small></span></a>
+  <a href="#contact"><span>Contact<small>05</small></span></a>
+  <div class="menu-foot">
+    <a href="mailto:olasamad21@gmail.com">olasamad21@gmail.com</a>
+    <a href="https://github.com/olasamad21" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="Ajayi_Abdulsamad_CV.pdf" target="_blank">Résumé ↗</a>
+  </div>
+</nav>
 
-<section id="about">
-  <div class="wrap">
-    <div class="sec-head"><span class="label">01 · about</span><div class="rule"></div></div>
-    <div class="about-body">
-      <div>
-        <p>I build software that solves problems I've actually run into: exam integrity tools, personal finance tracking, campus navigation. My focus is on shipping things that work end-to-end, not just prototypes.</p>
-        <p>Completed a six-month SIWES internship at the National Information Technology Development Agency (NITDA), working across Python development, applied data science, and interface design. Currently finishing my final-year project and looking for internship-level engineering work.</p>
-        <p>I also run Becoming a Dev, teaching the AI-assisted process I use to turn ideas into working software.</p>
-        <p style="margin-top:22px; padding:14px 18px; border:1px solid var(--blue-soft); background:var(--panel); border-radius:var(--radius); font-size:14.5px;"><strong>AI-assisted workflow:</strong> I use tools like ChatGPT, Claude, and Cursor/Windsurf throughout research, planning, and implementation to build faster and more thoroughly.</p>
+<main>
+  <section class="hero short">
+    <div class="orbs" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div></div>
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-top">
+        <span class="eyebrow" data-reveal style="--d:.5s">01 / Software engineering</span>
+        <span class="status" data-reveal style="--d:.6s"><span class="pulse"></span>Open to internships</span>
       </div>
-      <div class="stat-block">
-        <div class="stat-row"><span class="k">location</span><span class="v">Abuja, Nigeria</span></div>
-        <div class="stat-row"><span class="k">graduating</span><span class="v">Nov 2026</span></div>
-        <div class="stat-row"><span class="k">internship</span><span class="v">NITDA · 2025</span></div>
-        <div class="stat-row"><span class="k">status</span><span class="v" style="color:var(--ok);">open to work</span></div>
-        <div class="stat-row"><span class="k">github</span><span class="v">olasamad21</span></div>
-        <div class="stat-row"><span class="k">resume</span><span class="v"><a href="Ajayi_Abdulsamad_CV.pdf" target="_blank" style="text-decoration:underline;">View</a> / <a href="Ajayi_Abdulsamad_CV.pdf" download style="text-decoration:underline;">Download</a></span></div>
+      <h1 data-split style="--d:.55s">Software that<br><span class="serif accent">actually ships.</span></h1>
+      <div class="hero-bottom">
+        <p class="hero-lede" data-reveal style="--d:.9s">Final-year Software Engineering student at Lead City University. I build full-stack apps, ML tools and dashboards, and I spent six months on production systems at NITDA.</p>
+        <div class="hero-actions" data-reveal style="--d:1s">
+          <a class="btn" href="#projects" data-magnetic=".2">See projects <span class="arr">→</span></a>
+          <a class="btn ghost" href="https://github.com/olasamad21" target="_blank" rel="noopener" data-magnetic=".2">GitHub <span class="arr">↗</span></a>
+        </div>
       </div>
     </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track"><span>Python</span><span>FastAPI</span><span>Flutter</span><span>Dart</span><span>Firebase</span><span>DeepFace</span><span>Streamlit</span><span>Tkinter</span><span>Git</span><span>Vercel</span></div>
+    <div class="marquee-track"><span>Python</span><span>FastAPI</span><span>Flutter</span><span>Dart</span><span>Firebase</span><span>DeepFace</span><span>Streamlit</span><span>Tkinter</span><span>Git</span><span>Vercel</span></div>
   </div>
-</section>
 
-<section id="projects">
-  <div class="wrap">
-    <div class="sec-head"><span class="label">02 · projects</span><span class="count">6 total</span><div class="rule"></div></div>
-    <div class="filelist">
-
-      <div class="file">
-        <div class="file-head">
-          <span class="ext">.ts</span>
-          <span class="file-name">eduverify/</span>
-          <span class="status-tag">shipped</span>
-          <span class="file-stack">Frontend · FastAPI · Firebase</span>
+  <section class="sec" id="projects">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow" data-reveal>Featured</span>
+          <h2 data-split>Flagship <span class="serif">project</span></h2>
         </div>
-        <div class="file-body">
-          <p>A full-stack smart attendance system that verifies students are actually present, not just that they tapped a button. Requires two independent checks before marking anyone present: facial recognition with liveness detection (Facenet512 + MTCNN via DeepFace) to confirm identity, and GPS verification (Haversine distance calculation) to confirm physical presence in the classroom.</p>
-          <ul>
-            <li>Built full-stack: frontend deployed on Vercel, FastAPI + Python backend running the ML pipeline deployed on Railway, Firebase (Firestore + Auth) for data and authentication</li>
-            <li>Designed and built solo using an AI-assisted development workflow — from research and planning through implementation and deployment</li>
-            <li>Live: <a href="http://smart-attendance-web-murex.vercel.app/" target="_blank" rel="noopener" style="text-decoration:underline;">smart-attendance-web-murex.vercel.app</a></li>
-          </ul>
-        </div>
+        <p data-reveal>Full case study inside: the problem, how it works, both user roles and the stack.</p>
       </div>
 
-      <div class="file">
-        <div class="file-head">
-          <span class="ext">.py</span>
-          <span class="file-name">exam-guard/</span>
-          <span class="status-tag">completed</span>
-          <span class="file-stack">Python · Tkinter</span>
-        </div>
-        <div class="file-body">
-          <p>AI-powered virtual invigilator for Computer-Based Tests. Desktop application that monitors exam activity to support integrity in CBT environments.</p>
-          <ul>
-            <li>Built the full desktop interface and monitoring logic in Tkinter</li>
-            <li>Automated supervision tasks previously done manually</li>
-          </ul>
-        </div>
+      <div class="work-grid">
+        <a class="work wide" href="eduverify.html" data-reveal>
+          <div class="work-media" data-cursor="Read case" data-tilt>
+            <div class="inner stage teal">
+              <div class="phone tilt-l"><img src="img/eduverify/lect-classrooms.webp" alt="EduVerify lecturer classrooms screen" loading="lazy"></div>
+              <div class="phone mid" style="z-index:2"><img src="img/eduverify/stu-face.webp" alt="EduVerify face verification" loading="lazy"></div>
+              <div class="phone tilt-r"><img src="img/eduverify/stu-done.webp" alt="EduVerify attendance completed" loading="lazy"></div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div>
+              <h3>EduVerify <span class="arr">↗</span></h3>
+              <p>Smart attendance with face recognition, liveness detection and GPS geofencing. Built solo, live on Vercel and Railway.</p>
+            </div>
+            <div class="tags"><span class="tag dev">FastAPI</span><span class="tag">DeepFace</span><span class="tag">Firebase</span></div>
+          </div>
+        </a>
       </div>
 
-      <div class="file">
-        <div class="file-head">
-          <span class="ext">.py</span>
-          <span class="file-name">finance-dashboard/</span>
-          <span class="status-tag">completed</span>
-          <span class="file-stack">Python · Streamlit</span>
+      <div class="sec-head" style="margin-top:clamp(90px,12vw,150px)">
+        <div>
+          <span class="eyebrow" data-reveal>More projects</span>
+          <h2 data-split>Also <span class="serif">built</span></h2>
         </div>
-        <div class="file-body">
-          <p>Interactive personal finance dashboard that parses bank statement and OPay transaction data into spending visualizations.</p>
-          <ul>
-            <li>Built transaction history and monthly spending charts</li>
-          </ul>
-        </div>
+        <p data-reveal>Desktop apps, data tools and mobile apps. Hover the cards; each preview is animated.</p>
       </div>
 
-      <div class="file">
-        <div class="file-head">
-          <span class="ext">.dart</span>
-          <span class="file-name">campus-nav/</span>
-          <span class="status-tag">completed</span>
-          <span class="file-stack">Flutter · Dart</span>
+      <div class="work-grid">
+        <!-- Exam Guard -->
+        <div class="work w7" data-reveal>
+          <div class="work-media" data-tilt>
+            <div class="inner stage steel">
+              <div class="mock-win">
+                <div class="mock-bar"><i></i><i></i><i></i><b>exam-guard · invigilator</b></div>
+                <div class="mock-body eg">
+                  <div class="cam"><span class="rec">REC</span><span class="scanline"></span></div>
+                  <div class="log">
+                    <div>Face detected <em>OK</em></div>
+                    <div>Gaze on screen <em>OK</em></div>
+                    <div class="warn">Tab switch <em>FLAG</em></div>
+                    <div>Audio level <em>OK</em></div>
+                    <div>Candidate 014 <em>LIVE</em></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="ph-chip">Illustrative preview</span>
+          </div>
+          <div class="work-meta">
+            <div><h3>Exam Guard</h3><p>An AI virtual invigilator for computer-based tests. Desktop app that monitors exam activity and automates supervision.</p></div>
+            <div class="tags"><span class="tag dev">Python</span><span class="tag">Tkinter</span><span class="tag">AI</span></div>
+          </div>
         </div>
-        <div class="file-body">
-          <p>Smart campus navigation app with voice-guided directions, helping students and visitors move through university campuses. Built in Flutter and Dart as my final-year project.</p>
-          <ul>
-            <li>Applied user-centered design alongside core navigation logic</li>
-            <li>Successfully defended, graded, and submitted</li>
-          </ul>
-        </div>
-      </div>
 
-      <div class="file">
-        <div class="file-head">
-          <span class="ext">.dart</span>
-          <span class="file-name">vocab-builder/</span>
-          <span class="status-tag progress">in progress</span>
-          <span class="file-stack">Flutter · Dart</span>
+        <!-- Finance -->
+        <div class="work w5" data-reveal style="--d:.1s">
+          <div class="work-media" data-tilt>
+            <div class="inner stage olive">
+              <div class="mock-win" style="width:86%">
+                <div class="mock-bar"><i></i><i></i><i></i><b>finance · streamlit</b></div>
+                <div class="mock-body fin">
+                  <div class="kpi"><small>Spent · Oct</small><strong>₦184k</strong></div>
+                  <div class="kpi"><small>Top</small><strong>Food</strong></div>
+                  <div class="chart">
+                    <span style="--h:45%;--i:0"></span><span style="--h:70%;--i:1"></span><span style="--h:52%;--i:2"></span><span style="--h:88%;--i:3"></span><span style="--h:61%;--i:4"></span><span style="--h:94%;--i:5"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="ph-chip">Illustrative preview</span>
+          </div>
+          <div class="work-meta">
+            <div><h3>Finance dashboard</h3><p>Parses bank and OPay statements into monthly spending charts and transaction history.</p></div>
+            <div class="tags"><span class="tag dev">Streamlit</span></div>
+          </div>
         </div>
-        <div class="file-body">
-          <p>Software engineering vocabulary builder helping students learn technical terminology through interactive practice.</p>
-          <ul>
-            <li>Focused on interactive learning loops and retention</li>
-          </ul>
-        </div>
-      </div>
 
-      <div class="file">
-        <div class="file-head">
-          <span class="ext wip">.fig</span>
-          <span class="file-name">routify/</span>
-          <span class="status-tag">completed</span>
-          <span class="file-stack">Team project · Figma</span>
+        <!-- Campus nav -->
+        <div class="work w5" data-reveal>
+          <div class="work-media" data-tilt>
+            <div class="inner stage olive" style="background:radial-gradient(120% 90% at 50% 110%,#1D3F37 0%,#101A18 45%,#0C0D0D 100%)">
+              <div class="map">
+                <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="route" d="M60 240 C 120 240, 120 170, 190 160 S 280 90, 340 70"/><circle class="pin-ring" cx="60" cy="240" r="7"/><circle class="pin-dot" cx="60" cy="240" r="6"/><circle class="pin-ring" cx="340" cy="70" r="7"/><circle class="pin-dot" cx="340" cy="70" r="6"/></svg>
+              </div>
+              <div class="voice"><i></i><i></i><i></i><i></i><i></i><span>“Turn left at the library”</span></div>
+            </div>
+          </div>
+          <div class="work-meta">
+            <div><h3>Campus navigation</h3><p>Voice-guided wayfinding for students and visitors. Final-year project, defended and graded.</p></div>
+            <div class="tags"><span class="tag dev">Flutter</span><span class="tag">Dart</span></div>
+          </div>
         </div>
-        <div class="file-body">
-          <p>Public transit navigation app designed with a team, covering the full flow from wireframe to interactive prototype.</p>
-          <ul>
-            <li>Owned wireframing, low/high-fidelity screens, and prototyping</li>
-          </ul>
+
+        <!-- Vocab -->
+        <div class="work w7" data-reveal style="--d:.1s">
+          <div class="work-media" data-tilt>
+            <div class="inner stage violet">
+              <div class="flash">
+                <div class="stack"></div>
+                <div class="card front">Idempotent</div>
+                <div class="card back">An operation that gives the same result no matter how many times you run it.</div>
+              </div>
+            </div>
+            <span class="ph-chip">In progress · hover to flip</span>
+          </div>
+          <div class="work-meta">
+            <div><h3>Vocab builder</h3><p>Helps students learn software engineering terminology through interactive practice and retention loops.</p></div>
+            <div class="tags"><span class="tag dev">Flutter</span><span class="tag">In progress</span></div>
+          </div>
         </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="skills">
-  <div class="wrap">
-    <div class="sec-head"><span class="label">03 · skills.json</span><div class="rule"></div></div>
-    <div class="skill-groups">
-      <div class="skill-cell">
-        <span class="label">Languages</span>
-        <div class="items">Python<br>Frontend<br>Dart<br>HTML5 / CSS3</div>
-      </div>
-      <div class="skill-cell">
-        <span class="label">Data &amp; ML</span>
-        <div class="items">Data analysis<br>Data visualization<br>Applied AI/ML Tools</div>
-      </div>
-      <div class="skill-cell">
-        <span class="label">Frameworks</span>
-        <div class="items">Flutter<br>Tkinter<br>Streamlit</div>
-      </div>
-      <div class="skill-cell">
-        <span class="label">Tools</span>
-        <div class="items">Git / GitHub<br>Firebase<br>VS Code<br>Jupyter / Colab</div>
-      </div>
-      <div class="skill-cell">
-        <span class="label">Design</span>
-        <div class="items">Figma<br>Wireframing<br>Prototyping</div>
-      </div>
-      <div class="skill-cell">
-        <span class="label">Certifications</span>
-        <div class="items">Python Programming<br>Data Science (Adv.)<br>UI/UX Design (NITDA)</div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer class="contact" id="contact">
-  <div class="wrap">
-    <div class="sec-head"><span class="label">04 · contact.sh</span><div class="rule"></div></div>
-    <div class="terminal">
-      <div><span class="prompt">$</span> whoami</div>
-      <div>Abdulsamad Ajayi, Software Engineering student, open to internships</div>
-      <div style="margin-top:10px;"><span class="prompt">$</span> cat contact.txt</div>
-      <div>email: <a href="mailto:olasamad21@gmail.com">olasamad21@gmail.com</a></div>
-      <div>github: <span class="path2">github.com/olasamad21</span></div>
-      <div>linkedin: <a href="https://www.linkedin.com/in/ajayi-abdulsamad-b4757b307" target="_blank" style="text-decoration:underline;">ajayi-abdulsamad</a></div>
-      <div>linktree: <a href="https://linktr.ee/olasamad21" target="_blank" style="text-decoration:underline;">linktr.ee/olasamad21</a></div>
-      <div>resume: <a href="Ajayi_Abdulsamad_CV.pdf" target="_blank" style="text-decoration:underline;">Ajayi_Abdulsamad_CV.pdf</a></div>
-      <div>location: Abuja, Nigeria</div>
-      <div style="margin-top:10px;"><span class="prompt">$</span> <span class="cursor"></span></div>
+  <!-- Experience -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow" data-reveal>Experience</span>
+          <h2 data-split>Where I've <span class="serif">worked</span></h2>
+        </div>
+      </div>
+      <div class="rows">
+        <div class="row" data-reveal><span class="n">2025 · 6 mo</span><h4>NITDA · SIWES intern</h4><p>National Information Technology Development Agency. Worked across Python development, applied data science and interface design on production systems.</p></div>
+        <div class="row" data-reveal><span class="n">Ongoing</span><h4>Becoming a Dev</h4><p>I teach the AI-assisted process I use to turn ideas into working software.</p></div>
+        <div class="row" data-reveal><span class="n">Nov 2026</span><h4>B.Sc. Software Engineering</h4><p>Lead City University. Final-year project: voice-guided campus navigation in Flutter.</p></div>
+      </div>
     </div>
-  </div>
-  <div class="wrap bottom-line">
-    <span>© Abdulsamad Ajayi</span>
-    <span>Also see: <a href="ugc-portfolio.html" style="text-decoration:underline;">UGC / AI content</a> · <a href="uiux-portfolio.html" style="text-decoration:underline;">UI/UX design</a></span>
+  </section>
+
+  <!-- Skills -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow" data-reveal>Toolkit</span>
+          <h2 data-split>What I <span class="serif">work with</span></h2>
+        </div>
+        <p data-reveal>I use Claude, ChatGPT and Cursor throughout research, planning and implementation to build faster and more thoroughly.</p>
+      </div>
+      <div class="skills">
+        <div class="skill-card" data-reveal><h4>Languages</h4><div class="chips"><span>Python</span><span>Dart</span><span>JavaScript</span><span>HTML / CSS</span></div></div>
+        <div class="skill-card" data-reveal style="--d:.08s"><h4>Frameworks</h4><div class="chips"><span>FastAPI</span><span>Flutter</span><span>Streamlit</span><span>Tkinter</span></div></div>
+        <div class="skill-card" data-reveal style="--d:.16s"><h4>Data &amp; ML</h4><div class="chips"><span>DeepFace</span><span>Data analysis</span><span>Visualization</span><span>Applied AI</span></div></div>
+        <div class="skill-card" data-reveal><h4>Cloud &amp; tools</h4><div class="chips"><span>Firebase</span><span>Vercel</span><span>Railway</span><span>Git / GitHub</span><span>Jupyter</span></div></div>
+        <div class="skill-card" data-reveal style="--d:.08s"><h4>Design</h4><div class="chips"><span>Figma</span><span>Wireframing</span><span>Prototyping</span></div></div>
+        <div class="skill-card" data-reveal style="--d:.16s"><h4>Certifications</h4><div class="chips"><span>Python Programming</span><span>Data Science (Adv.)</span><span>UI/UX Design · NITDA</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Keep exploring</span>
+      <div class="next-page" style="margin-top:28px">
+        <a class="np" href="uiux-portfolio.html" style="--c:var(--design)" data-reveal><small>02 / Design</small><h3>UI/UX design <span>→</span></h3></a>
+        <a class="np" href="ugc-portfolio.html" style="--c:var(--ugc);--d:.1s" data-reveal><small>03 / Content</small><h3>AI content <span>→</span></h3></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <section class="cta">
+    <div class="orbs" aria-hidden="true"><div class="orb o1"></div><div class="orb o3"></div></div>
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>Contact</span>
+      <h2 data-split style="margin-top:24px">Need something<br><span class="serif accent">built?</span></h2>
+      <p data-reveal>Open to internships and freelance engineering work. I usually reply within a day.</p>
+      <div class="cta-actions" data-reveal>
+        <a class="btn copy-mail" href="mailto:olasamad21@gmail.com" data-copy="olasamad21@gmail.com" data-magnetic=".2">olasamad21@gmail.com <span class="arr">⧉</span><span class="done">Copied to clipboard ✓</span></a>
+        <a class="btn ghost" href="Ajayi_Abdulsamad_CV.pdf" target="_blank" data-magnetic=".2">Résumé <span class="arr">↗</span></a>
+      </div>
+    </div>
+  </section>
+  <div class="footer">
+    <div class="wrap">
+      <div class="footer-row">
+        <span>© <span data-year>2026</span> Abdulsamad Ajayi</span>
+        <div class="footer-links">
+          <a class="link-u" href="https://github.com/olasamad21" target="_blank" rel="noopener">GitHub</a>
+          <a class="link-u" href="https://www.linkedin.com/in/ajayi-abdulsamad-b4757b307" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="link-u" href="https://linktr.ee/olasamad21" target="_blank" rel="noopener">Linktree</a>
+          <a class="link-u" href="Ajayi_Abdulsamad_CV.pdf" target="_blank">Résumé</a>
+        </div>
+        <a class="to-top" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top <i>↑</i></a>
+      </div>
+      <div class="big-name" aria-hidden="true">Ajayi</div>
+    </div>
   </div>
 </footer>
 
+<script src="assets/js/site.js"></script>
 </body>
 </html>
