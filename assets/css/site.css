@@ -423,7 +423,7 @@ section{ position:relative; }
 .stat{ padding:28px 20px 0 0; }
 .stat + .stat{ padding-left:20px; border-left:1px solid var(--line); }
 .stat strong{ display:block; font-size:clamp(44px,6vw,80px); font-weight:500; letter-spacing:-.05em; line-height:1; }
-.stat span{ display:block; margin-top:10px; color:var(--soft); font-size:14px; }
+.stat > span{ display:block; margin-top:10px; color:var(--soft); font-size:14px; }
 @media (max-width:760px){ .stats{ grid-template-columns:1fr 1fr; } .stat:nth-child(3){ padding-left:0; border-left:0; } .stat:nth-child(n+3){ border-top:1px solid var(--line); margin-top:28px; } }
 
 /* ---------- CTA / footer ---------- */
@@ -687,3 +687,75 @@ section{ position:relative; }
 .portrait-tag{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:100px; background:rgba(10,10,12,.55); border:1px solid var(--line-2); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); font-family:var(--mono); font-size:11px; letter-spacing:.06em; white-space:nowrap; }
 .portrait-tag .pulse{ width:6px; height:6px; }
 @media (max-width:860px){ .about.about-photo{ grid-template-columns:1fr; } .portrait{ max-width:420px; } }
+
+/* ---------- Off the clock: Liverpool easter egg ---------- */
+:root{ --lfc:#D3112E; --lfc-2:#F6EB61; }
+.lfc{
+  position:relative; isolation:isolate; overflow:hidden; width:100%; margin-top:clamp(40px,5vw,64px);
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:clamp(14px,2vw,22px);
+  padding:clamp(16px,2vw,22px); border-radius:var(--r-lg); text-align:left;
+  background:linear-gradient(135deg,#17171B,#101013); border:1px solid var(--line);
+  transition:border-color .5s var(--ease), transform .7s var(--ease), box-shadow .7s var(--ease);
+}
+.lfc:hover{ border-color:color-mix(in srgb,var(--lfc) 45%,transparent); box-shadow:0 30px 60px -30px color-mix(in srgb,var(--lfc) 45%,transparent); }
+.has-cursor .lfc:hover{ transform:translateY(-4px); }
+.lfc-glow{ position:absolute; z-index:-1; right:-10%; top:-60%; width:60%; aspect-ratio:1; border-radius:50%; background:var(--lfc); filter:blur(70px); opacity:.16; transition:opacity .7s var(--ease), transform 1s var(--ease); pointer-events:none; }
+.lfc:hover .lfc-glow{ opacity:.32; transform:scale(1.2); }
+
+.lfc-ball{ display:block; width:clamp(46px,5vw,58px); aspect-ratio:1; filter:drop-shadow(0 10px 14px rgba(0,0,0,.5)); }
+.lfc-ball svg{ display:block; width:100%; height:100%; transition:transform 1.2s var(--ease); }
+.js .lfc .lfc-ball{ transform:translateY(-160%); opacity:0; }
+.js .lfc.in .lfc-ball{ animation:ballDrop 1.4s var(--ease-io) .35s both; }
+@keyframes ballDrop{
+  0%{ transform:translateY(-160%) rotate(-200deg); opacity:0; }
+  15%{ opacity:1; }
+  45%{ transform:translateY(0) rotate(0); }
+  60%{ transform:translateY(-32%) rotate(40deg); }
+  75%{ transform:translateY(0) rotate(70deg); }
+  86%{ transform:translateY(-10%) rotate(85deg); }
+  100%{ transform:translateY(0) rotate(90deg); opacity:1; }
+}
+.lfc:hover .lfc-ball svg{ transform:rotate(360deg); }
+.lfc.kick .lfc-ball svg{ animation:kick .9s var(--ease); }
+@keyframes kick{ 0%{ transform:none; } 40%{ transform:translate(14px,-18px) rotate(220deg) scale(1.1); } 100%{ transform:rotate(360deg); } }
+
+.lfc-text{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+.lfc-eyebrow{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--lfc); }
+.lfc-line{ font-size:clamp(18px,1.8vw,22px); letter-spacing:-.02em; color:var(--ink); }
+
+.board{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:10px 12px 8px; border-radius:14px; background:#060607; border:1px solid rgba(255,255,255,.08); box-shadow:inset 0 1px 0 rgba(255,255,255,.04); }
+.board-row{ display:flex; align-items:center; gap:8px; }
+.team{ font-family:var(--mono); font-size:12px; font-weight:500; letter-spacing:.08em; color:var(--soft); }
+.team.home{ color:var(--ink); }
+.digit{
+  position:relative; display:grid; place-items:center; width:34px; height:44px; border-radius:7px;
+  font-family:var(--mono); font-size:26px; font-weight:500; color:var(--ink); font-variant-numeric:tabular-nums;
+  background:linear-gradient(#18181C 50%,#121215 50%); box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
+  perspective:200px;
+}
+.digit::after{ content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(0,0,0,.6); }
+.digit[data-score]{ color:var(--lfc); }
+.digit.tick{ animation:flip .42s var(--ease); }
+@keyframes flip{ 0%{ transform:rotateX(-90deg); opacity:.3; } 100%{ transform:none; opacity:1; } }
+.dash{ font-family:var(--mono); color:var(--dim); font-size:20px; }
+.board-meta{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
+.ft-tag{ padding:2px 6px; border-radius:4px; background:var(--lfc); color:#fff; opacity:0; transform:scale(.6); transition:.5s var(--ease); }
+.lfc.done .ft-tag{ opacity:1; transform:none; }
+
+.goal-flash{
+  position:absolute; inset:0; z-index:3; display:grid; place-items:center; pointer-events:none;
+  font-family:var(--serif); font-style:italic; font-size:clamp(48px,7vw,84px); color:#fff; letter-spacing:-.02em;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--lfc) 85%,transparent),color-mix(in srgb,var(--lfc) 55%,transparent) 70%,transparent);
+  opacity:0; transform:scale(.6);
+}
+.lfc.celebrate .goal-flash{ animation:goal 1.3s var(--ease) both; }
+@keyframes goal{ 0%{ opacity:0; transform:scale(.6); } 20%{ opacity:1; transform:scale(1.05); } 65%{ opacity:1; transform:scale(1); } 100%{ opacity:0; transform:scale(1.15); } }
+
+.confetti{ position:fixed; z-index:170; top:0; left:0; width:9px; height:14px; border-radius:2px; pointer-events:none; will-change:transform,opacity; }
+
+@media (max-width:560px){
+  .lfc{ grid-template-columns:auto 1fr; }
+  .board{ grid-column:1 / -1; flex-direction:row; justify-content:space-between; }
+  .board-meta{ flex-direction:column; align-items:flex-end; gap:4px; }
+}
+@media (prefers-reduced-motion:reduce){ .js .lfc .lfc-ball{ transform:none; opacity:1; } }
