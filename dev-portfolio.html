@@ -77,9 +77,9 @@
       <div class="sec-head">
         <div>
           <span class="eyebrow" data-reveal>Featured</span>
-          <h2 data-split>Flagship <span class="serif">project</span></h2>
+          <h2 data-split>Flagship <span class="serif">projects</span></h2>
         </div>
-        <p data-reveal>Full case study inside: the problem, how it works, both user roles and the stack.</p>
+        <p data-reveal>Each has a full case study: the problem, how it works and the engineering behind it.</p>
       </div>
 
       <div class="work-grid">
@@ -99,6 +99,25 @@
             <div class="tags"><span class="tag dev">FastAPI</span><span class="tag">DeepFace</span><span class="tag">Firebase</span></div>
           </div>
         </a>
+
+        <!-- Campus nav: real walkthrough recorded on device -->
+        <a class="work wide" href="campus-navigator.html" id="campus-nav" data-reveal>
+          <div class="work-media" data-cursor="Read case" data-tilt>
+            <div class="inner stage navy">
+              <div class="phone tall tilt-l"><img src="img/campus/home.webp" alt="Campus Navigator home screen" loading="lazy"></div>
+              <div class="phone tall mid" style="z-index:2">
+                <video data-loop muted playsinline loop preload="none" poster="img/campus/poster.webp" aria-label="Screen recording: planning a route from Library to Senate Building and following turn-by-turn navigation to arrival"><source src="img/campus/campus-walkthrough.mp4" type="video/mp4"></video>
+              </div>
+              <div class="phone tall tilt-r"><img src="img/campus/map.webp" alt="Campus map with every building marked" loading="lazy"></div>
+            </div>
+            <span class="ph-chip"><span class="rec-dot"></span>Real app · screen recording</span>
+          </div>
+          <div class="work-meta">
+            <div><h3>Lead City Campus Navigator <span class="arr">↗</span></h3><p>Turn-by-turn walking directions with voice guidance across 42 mapped buildings. Routes are computed on the phone with Dijkstra over a GPS-traced walkway network of 434 points (about 8.2 km of paths), with live rerouting. Final-year project, defended and graded.</p></div>
+            <div class="tags"><span class="tag dev">Flutter</span><span class="tag">Dart</span><span class="tag">Google Maps</span><span class="tag">GIS</span></div>
+          </div>
+        </a>
+
       </div>
 
       <div class="sec-head" style="margin-top:clamp(90px,12vw,150px)">
@@ -110,24 +129,6 @@
       </div>
 
       <div class="work-grid">
-        <!-- Campus nav: real walkthrough recorded on device -->
-        <div class="work wide" id="campus-nav" data-reveal>
-          <div class="work-media" data-tilt>
-            <div class="inner stage olive" style="background:radial-gradient(120% 90% at 50% 110%,#22305E 0%,#121630 45%,#0C0C10 100%)">
-              <div class="phone tall tilt-l"><img src="img/campus/plan.webp" alt="Plan your walk: Library to Senate Building, 8 minute walk, 578 metres, 2 turns" loading="lazy"></div>
-              <div class="phone tall mid" style="z-index:2">
-                <video data-loop muted playsinline loop preload="none" poster="img/campus/poster.webp" aria-label="Screen recording: planning a route from Library to Senate Building and following turn-by-turn navigation to arrival"><source src="img/campus/campus-walkthrough.mp4" type="video/mp4"></video>
-              </div>
-              <div class="phone tall tilt-r"><img src="img/campus/arrived.webp" alt="You have arrived at Senate Building: 578 metres walked" loading="lazy"></div>
-            </div>
-            <span class="ph-chip"><span class="rec-dot"></span>Real app · screen recording</span>
-          </div>
-          <div class="work-meta">
-            <div><h3>Lead City Campus Navigator</h3><p>Turn-by-turn walking directions with voice guidance across 42 mapped buildings. Routes are computed on the phone with Dijkstra over a GPS-traced walkway network of 434 points (about 8.2 km of paths), with live rerouting. Final-year project, defended and graded.</p></div>
-            <div class="tags"><span class="tag dev">Flutter</span><span class="tag">Dart</span><span class="tag">Google Maps</span><span class="tag">GIS</span></div>
-          </div>
-        </div>
-
         <!-- Exam Guard -->
         <div class="work w7" data-reveal>
           <div class="work-media" data-tilt>
