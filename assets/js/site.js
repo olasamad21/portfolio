@@ -158,6 +158,7 @@
   });
 
   /* ---------- custom cursor, magnetic, tilt (desktop only) ---------- */
+  var refreshCursor = function () {};
   if (fine && !reduce) {
     body.classList.add('has-cursor');
     var cur = doc.createElement('div'); cur.className = 'cursor'; cur.innerHTML = '<span class="lbl"></span>';
@@ -175,13 +176,29 @@
       cur.style.transform = 'translate(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px)';
       requestAnimationFrame(loop);
     })();
-    doc.addEventListener('mouseover', function (e) {
-      var v = e.target.closest('[data-cursor]');
-      var l = e.target.closest('a,button,[role="button"]');
+    var overEl = null;
+    function paintCursor() {
+      var t = overEl; if (!t || !t.closest) return;
+      var ctrl = t.closest('.reel-ctrl');
+      var v = !ctrl && t.closest('[data-cursor]');
+      var b = !v && (ctrl ? t.closest('button,.rc-track') : t.closest('.btn,.burger,.lb-btn,.play-btn'));
+      var l = !v && !b && t.closest('a,button,[role="button"]');
       cur.classList.toggle('is-view', !!v);
-      cur.classList.toggle('is-link', !v && !!l);
+      cur.classList.toggle('is-btn', !!b);
+      cur.classList.toggle('is-link', !!l);
       lbl.textContent = v ? v.dataset.cursor : '';
-      dot.style.opacity = v ? 0 : 1;
+      dot.style.opacity = (v || b) ? 0 : 1;
+    }
+    refreshCursor = paintCursor;
+    doc.addEventListener('mouseover', function (e) { overEl = e.target; paintCursor(); });
+
+    /* buttons magnify and get a lens highlight that follows the pointer */
+    $$('.btn').forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
     });
 
     $$('[data-magnetic]').forEach(function (el) {
@@ -189,7 +206,7 @@
       el.addEventListener('mousemove', function (e) {
         var r = el.getBoundingClientRect();
         var x = e.clientX - (r.left + r.width / 2), y = e.clientY - (r.top + r.height / 2);
-        el.style.transform = 'translate(' + x * s + 'px,' + y * s + 'px)';
+        el.style.transform = 'translate(' + (x * s).toFixed(1) + 'px,' + (y * s).toFixed(1) + 'px) scale(1.06)';
       });
       el.addEventListener('mouseleave', function () { el.style.transform = ''; });
     });
@@ -265,20 +282,124 @@
   }
 
   /* ---------- video reels ---------- */
+  var ICON = {
+    play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.2-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4.2" height="14" rx="1.2"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2"/></svg>',
+    sound: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+    mute: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>',
+    full: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'
+  };
+  function fmt(s) { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+
   $$('.reel[data-video]').forEach(function (reel) {
-    var v = $('video', reel), btn = $('.play-btn', reel), fill = $('.reel-bar i', reel);
+    var v = $('video', reel), media = $('.reel-media', reel), fill = $('.reel-bar i', reel);
     if (!v) return;
+    v.controls = false; v.removeAttribute('controls');
+    media.setAttribute('tabindex', '0'); media.setAttribute('role', 'button');
+    media.setAttribute('aria-label', 'Play ' + ($('h3', reel) ? $('h3', reel).textContent : 'video') + ' with sound');
+
+    var ctrl = doc.createElement('div'); ctrl.className = 'reel-ctrl';
+    ctrl.innerHTML =
+      '<button class="rc-btn rc-play" aria-label="Pause">' + ICON.pause + '</button>' +
+      '<span class="rc-time">0:00</span>' +
+      '<div class="rc-track" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="rc-fill"></i><i class="rc-knob"></i></div>' +
+      '<span class="rc-time rc-dur">0:00</span>' +
+      '<button class="rc-btn rc-mute" aria-label="Mute">' + ICON.sound + '</button>' +
+      '<button class="rc-btn rc-full" aria-label="Full screen">' + ICON.full + '</button>';
+    media.appendChild(ctrl);
+    var center = doc.createElement('span'); center.className = 'rc-center'; center.setAttribute('aria-hidden', 'true');
+    center.innerHTML = ICON.play; media.appendChild(center);
+    var bPlay = $('.rc-play', ctrl), bMute = $('.rc-mute', ctrl), bFull = $('.rc-full', ctrl);
+    var track = $('.rc-track', ctrl), tFill = $('.rc-fill', ctrl), tKnob = $('.rc-knob', ctrl);
+    var tCur = $('.rc-time', ctrl), tDur = $('.rc-dur', ctrl);
+    var idleTimer = null;
+
+    function syncUI() {
+      var playing = !v.paused && !v.ended;
+      reel.classList.toggle('paused', reel.classList.contains('started') && !playing);
+      bPlay.innerHTML = playing ? ICON.pause : ICON.play;
+      bPlay.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+      bMute.innerHTML = v.muted ? ICON.mute : ICON.sound;
+      bMute.setAttribute('aria-label', v.muted ? 'Unmute' : 'Mute');
+      media.dataset.cursor = reel.classList.contains('started') ? (playing ? 'Pause' : 'Play') : 'Play';
+      refreshCursor();
+    }
+    function wake() {
+      reel.classList.remove('idle'); clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () { if (!v.paused) reel.classList.add('idle'); }, 2200);
+    }
     function start() {
-      $$('.reel.playing video').forEach(function (o) { if (o !== v) o.pause(); });
-      v.muted = false; v.controls = true; v.play(); reel.classList.add('playing');
+      $$('.reel.started video').forEach(function (o) { if (o !== v) o.pause(); });
+      if (!reel.classList.contains('started')) { v.currentTime = 0; }
+      reel.classList.add('started');
+      v.muted = false; v.play().catch(function () {}); wake();
     }
-    $('.reel-media', reel).addEventListener('click', function () { if (!reel.classList.contains('playing')) start(); });
+    function toggle() {
+      if (!reel.classList.contains('started')) return start();
+      if (v.paused) { start(); } else { v.pause(); }
+    }
+    function reset() {
+      reel.classList.remove('started', 'paused', 'idle');
+      v.pause(); v.muted = true; v.currentTime = 0; v.load();
+      fill.style.width = '0%'; syncUI();
+    }
+
+    media.addEventListener('click', function (e) { if (!e.target.closest('.reel-ctrl')) toggle(); });
+    media.addEventListener('keydown', function (e) {
+      if (e.target !== media) return;
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
+    });
+    media.addEventListener('mousemove', wake);
+    media.addEventListener('touchstart', wake, { passive: true });
+    bPlay.addEventListener('click', function () { toggle(); wake(); });
+    bMute.addEventListener('click', function () { v.muted = !v.muted; syncUI(); wake(); });
+    bFull.addEventListener('click', function () {
+      if (doc.fullscreenElement) { doc.exitFullscreen(); return; }
+      if (media.requestFullscreen) media.requestFullscreen().catch(function () {});
+      else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+    });
+
+    /* scrubbing */
+    var dragging = false;
+    function seekTo(clientX) {
+      var r = track.getBoundingClientRect();
+      var p = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
+      if (v.duration) v.currentTime = p * v.duration;
+      paint(p);
+    }
+    track.addEventListener('pointerdown', function (e) {
+      dragging = true; track.setPointerCapture(e.pointerId); reel.classList.add('scrubbing'); seekTo(e.clientX);
+    });
+    track.addEventListener('pointermove', function (e) { if (dragging) seekTo(e.clientX); });
+    track.addEventListener('pointerup', function () { dragging = false; reel.classList.remove('scrubbing'); });
+    track.addEventListener('keydown', function (e) {
+      if (!v.duration) return;
+      if (e.key === 'ArrowRight') { v.currentTime = Math.min(v.duration, v.currentTime + 1); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { v.currentTime = Math.max(0, v.currentTime - 1); e.preventDefault(); }
+    });
+
+    function paint(p) {
+      var pct = (p * 100).toFixed(2) + '%';
+      tFill.style.width = pct; tKnob.style.left = pct; fill.style.width = pct;
+      if (v.duration) tCur.textContent = fmt(p * v.duration);
+      track.setAttribute('aria-valuenow', Math.round(p * 100));
+    }
+    v.addEventListener('timeupdate', function () {
+      if (!v.duration || dragging) return;
+      paint(v.currentTime / v.duration);
+      tCur.textContent = fmt(v.currentTime);
+    });
+    v.addEventListener('loadedmetadata', function () { tDur.textContent = fmt(v.duration); });
+    v.addEventListener('play', syncUI);
+    v.addEventListener('pause', function () { syncUI(); reel.classList.remove('idle'); });
+    v.addEventListener('volumechange', syncUI);
+    v.addEventListener('ended', reset);
+
     if (fine && !reduce) {
-      reel.addEventListener('mouseenter', function () { if (!reel.classList.contains('playing')) { v.muted = true; v.play().catch(function () {}); } });
-      reel.addEventListener('mouseleave', function () { if (!reel.classList.contains('playing')) { v.pause(); } });
+      reel.addEventListener('mouseenter', function () { if (!reel.classList.contains('started')) { v.muted = true; v.play().catch(function () {}); } });
+      reel.addEventListener('mouseleave', function () { if (!reel.classList.contains('started')) { v.pause(); } });
     }
-    v.addEventListener('timeupdate', function () { if (v.duration) fill.style.width = (v.currentTime / v.duration * 100) + '%'; });
-    v.addEventListener('ended', function () { reel.classList.remove('playing'); v.controls = false; });
+    syncUI();
   });
 
   /* ---------- muted autoplay loops when visible ---------- */
