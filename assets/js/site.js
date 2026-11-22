@@ -420,7 +420,7 @@
       if (reduce) { home.textContent = target; lfc.classList.add('done'); return; }
       var n = 0;
       (function goal() {
-        n++; home.textContent = n;
+        n++; home.innerHTML = '<span class="d">' + n + '</span>';
         home.classList.remove('tick'); void home.offsetWidth; home.classList.add('tick');
         if (n < target) setTimeout(goal, n === target - 1 ? 520 : 280);
         else setTimeout(function () { lfc.classList.add('done'); }, 350);

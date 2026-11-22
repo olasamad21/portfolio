@@ -147,11 +147,13 @@ body::after{
 .burger[aria-expanded="true"] span:nth-child(2){ top:20.5px; transform:rotate(-45deg); }
 
 .menu{
-  position:fixed; inset:0; z-index:90; background:rgba(10,10,12,.96); backdrop-filter:blur(20px);
+  position:fixed; inset:0; z-index:90; background:var(--bg);
   display:flex; flex-direction:column; justify-content:center; padding:100px var(--gutter) 40px;
-  clip-path:circle(0% at calc(100% - 40px) 40px); transition:clip-path .8s var(--ease); visibility:hidden;
+  /* grows from the burger button; no backdrop blur, which made phones flicker mid-animation */
+  clip-path:circle(20px at calc(100% - 43px) 41px); visibility:hidden; will-change:clip-path;
+  transition:clip-path .65s var(--ease-io), visibility 0s linear .65s;
 }
-.menu.open{ clip-path:circle(150% at calc(100% - 40px) 40px); visibility:visible; }
+.menu.open{ clip-path:circle(160vmax at calc(100% - 43px) 41px); visibility:visible; transition:clip-path .65s var(--ease-io), visibility 0s; }
 .menu > a{ display:block; font-size:clamp(40px,11vw,64px); line-height:1.15; letter-spacing:-.03em; padding:4px 0; overflow:hidden; }
 .menu > a span{ display:inline-block; transform:translateY(110%); transition:transform .8s var(--ease); }
 .menu.open > a span{ transform:none; }
@@ -731,12 +733,15 @@ section{ position:relative; }
   position:relative; display:grid; place-items:center; width:34px; height:44px; border-radius:7px;
   font-family:var(--mono); font-size:26px; font-weight:500; color:var(--ink); font-variant-numeric:tabular-nums;
   background:linear-gradient(#18181C 50%,#121215 50%); box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
-  perspective:200px;
+  overflow:hidden;
 }
-.digit::after{ content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(0,0,0,.6); }
+.digit::after{ content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(0,0,0,.6); z-index:1; }
 .digit[data-score]{ color:var(--lfc); }
-.digit.tick{ animation:flip .42s var(--ease); }
-@keyframes flip{ 0%{ transform:rotateX(-90deg); opacity:.3; } 100%{ transform:none; opacity:1; } }
+/* each new number drops in from above; the box itself never rotates, so a digit is always visible */
+.digit .d{ display:block; line-height:1; animation:digitIn .24s cubic-bezier(.2,.9,.3,1.2) both; }
+@keyframes digitIn{ from{ transform:translateY(-110%); } to{ transform:none; } }
+.digit.tick{ animation:digitPop .26s var(--ease); }
+@keyframes digitPop{ 0%{ box-shadow:inset 0 0 0 1px rgba(255,255,255,.07); } 40%{ box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--lfc) 70%,transparent), 0 0 18px -2px color-mix(in srgb,var(--lfc) 60%,transparent); } 100%{ box-shadow:inset 0 0 0 1px rgba(255,255,255,.07); } }
 .dash{ font-family:var(--mono); color:var(--dim); font-size:20px; }
 .board-meta{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
 .ft-tag{ padding:2px 6px; border-radius:4px; background:var(--lfc); color:#fff; opacity:0; transform:scale(.6); transition:.5s var(--ease); }
