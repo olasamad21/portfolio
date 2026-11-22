@@ -794,3 +794,8 @@ body.t-nav .orb{ background:#4E6BFF; }
   .screens::-webkit-scrollbar{ display:none; }
   .screen{ scroll-snap-align:center; }
 }
+
+/* ---------- Gradual ---------- */
+body.t-grad{ --accent:#5BD687; }
+body.t-grad .orb{ background:#2E9E5B; }
+.stage.forest{ background:radial-gradient(120% 90% at 50% 110%,#16492D 0%,#0F2118 45%,#0B0D0C 100%); }
