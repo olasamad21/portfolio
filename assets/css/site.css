@@ -759,3 +759,8 @@ section{ position:relative; }
   .board-meta{ flex-direction:column; align-items:flex-end; gap:4px; }
 }
 @media (prefers-reduced-motion:reduce){ .js .lfc .lfc-ball{ transform:none; opacity:1; } }
+
+/* real screen-recording phones */
+.phone.tall{ aspect-ratio:600/1244; }
+.phone video{ width:100%; height:100%; object-fit:cover; border-radius:clamp(14px,1.9vw,27px); background:#0E1226; }
+.rec-dot{ display:inline-block; width:7px; height:7px; margin-right:7px; border-radius:50%; background:#FF5A5A; vertical-align:1px; animation:blink 1.4s steps(1) infinite; }

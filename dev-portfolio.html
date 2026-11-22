@@ -110,6 +110,24 @@
       </div>
 
       <div class="work-grid">
+        <!-- Campus nav: real walkthrough recorded on device -->
+        <div class="work wide" id="campus-nav" data-reveal>
+          <div class="work-media" data-tilt>
+            <div class="inner stage olive" style="background:radial-gradient(120% 90% at 50% 110%,#22305E 0%,#121630 45%,#0C0C10 100%)">
+              <div class="phone tall tilt-l"><img src="img/campus/plan.webp" alt="Plan your walk: Library to Senate Building, 8 minute walk, 578 metres, 2 turns" loading="lazy"></div>
+              <div class="phone tall mid" style="z-index:2">
+                <video data-loop muted playsinline loop preload="none" poster="img/campus/poster.webp" aria-label="Screen recording: planning a route from Library to Senate Building and following turn-by-turn navigation to arrival"><source src="img/campus/campus-walkthrough.mp4" type="video/mp4"></video>
+              </div>
+              <div class="phone tall tilt-r"><img src="img/campus/arrived.webp" alt="You have arrived at Senate Building: 578 metres walked" loading="lazy"></div>
+            </div>
+            <span class="ph-chip"><span class="rec-dot"></span>Real app · screen recording</span>
+          </div>
+          <div class="work-meta">
+            <div><h3>Lead City Campus Navigator</h3><p>Turn-by-turn walking directions with voice guidance across 42 mapped buildings. Routes are computed on the phone with Dijkstra over a GPS-traced walkway network of 434 points (about 8.2 km of paths), with live rerouting. Final-year project, defended and graded.</p></div>
+            <div class="tags"><span class="tag dev">Flutter</span><span class="tag">Dart</span><span class="tag">Google Maps</span><span class="tag">GIS</span></div>
+          </div>
+        </div>
+
         <!-- Exam Guard -->
         <div class="work w7" data-reveal>
           <div class="work-media" data-tilt>
@@ -159,24 +177,8 @@
           </div>
         </div>
 
-        <!-- Campus nav -->
-        <div class="work w5" data-reveal>
-          <div class="work-media" data-tilt>
-            <div class="inner stage olive" style="background:radial-gradient(120% 90% at 50% 110%,#1D3F37 0%,#101A18 45%,#0C0D0D 100%)">
-              <div class="map">
-                <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="route" d="M60 240 C 120 240, 120 170, 190 160 S 280 90, 340 70"/><circle class="pin-ring" cx="60" cy="240" r="7"/><circle class="pin-dot" cx="60" cy="240" r="6"/><circle class="pin-ring" cx="340" cy="70" r="7"/><circle class="pin-dot" cx="340" cy="70" r="6"/></svg>
-              </div>
-              <div class="voice"><i></i><i></i><i></i><i></i><i></i><span>“Turn left at the library”</span></div>
-            </div>
-          </div>
-          <div class="work-meta">
-            <div><h3>Campus navigation</h3><p>Voice-guided wayfinding for students and visitors. Final-year project, defended and graded.</p></div>
-            <div class="tags"><span class="tag dev">Flutter</span><span class="tag">Dart</span></div>
-          </div>
-        </div>
-
         <!-- Vocab -->
-        <div class="work w7" data-reveal style="--d:.1s">
+        <div class="work wide" data-reveal>
           <div class="work-media" data-tilt>
             <div class="inner stage violet">
               <div class="flash">
