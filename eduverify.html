@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/site.css?v=5a61cf9879">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="t-dev">
@@ -181,12 +181,78 @@
     </div>
   </section>
 
+  <!-- Lecturer setup -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow" data-reveal>For lecturers</span>
+          <h2 data-split>How a lecturer<br><span class="serif">sets up a class</span></h2>
+        </div>
+        <p data-reveal>Once, at the start of term, then a few taps before each class. Scroll through the six steps.</p>
+      </div>
+
+      <div class="setup" data-setup>
+        <div class="setup-sticky" aria-hidden="true">
+          <div class="setup-phone">
+            <img src="img/eduverify2/setup-course.webp" alt="" class="on">
+            <img src="img/eduverify2/setup-password.webp" alt="" loading="lazy">
+            <img src="img/eduverify2/setup-classroom.webp" alt="" loading="lazy">
+            <img src="img/eduverify2/setup-classrooms.webp" alt="" loading="lazy">
+            <img src="img/eduverify2/setup-session.webp" alt="" loading="lazy">
+            <img src="img/eduverify2/setup-live.webp" alt="" loading="lazy">
+          </div>
+          <div class="setup-dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+
+        <div class="setup-steps">
+          <div class="s-step on">
+            <span class="n">01 · Course</span>
+            <h3>Create a course</h3>
+            <p>A title, a course code, a default session length, and how many marks signing in and signing out are worth. Here that's 3 for signing in and 2 for signing out.</p>
+            <div class="s-inline phone"><img src="img/eduverify2/setup-course.webp" alt="New Course form: title, code, default duration, sign-in and sign-out marks" loading="lazy"></div>
+          </div>
+          <div class="s-step">
+            <span class="n">02 · Password</span>
+            <h3>Every course gets its own password</h3>
+            <p>An 8-character password is generated automatically and checked against every other course. Students join with the course code <em>and</em> its password, so two lecturers can both teach "MTH312" without their students ever crossing over.</p>
+            <div class="s-inline phone"><img src="img/eduverify2/setup-password.webp" alt="Course page showing the course password, students, duration and sessions" loading="lazy"></div>
+          </div>
+          <div class="s-step">
+            <span class="n">03 · Classroom</span>
+            <h3>Place the room by standing in it</h3>
+            <p>Tap <strong>Use My Current Location</strong>. The app averages several GPS readings to drop the pin (here 6 readings, accurate to about 6 m) and suggests a radius you can drag anywhere from 20 m (strict) to 1,000 m (campus-wide).</p>
+            <div class="s-inline phone"><img src="img/eduverify2/setup-classroom.webp" alt="Add Classroom: map with a pin and a 40 metre radius" loading="lazy"></div>
+          </div>
+          <div class="s-step">
+            <span class="n">04 · Saved</span>
+            <h3>Map it once, reuse it forever</h3>
+            <p>Classrooms are saved to your account with their location and radius. Next week you just pick one. There's no re-mapping before every class.</p>
+            <div class="s-inline phone"><img src="img/eduverify2/setup-classrooms.webp" alt="List of six saved classrooms with their radius" loading="lazy"></div>
+          </div>
+          <div class="s-step">
+            <span class="n">05 · Session</span>
+            <h3>Start a session your way</h3>
+            <p>Pick a saved classroom, then set the class length (15 minutes to 2 hours, or any custom time) and how long the sign-in and sign-out windows stay open (5 to 60 minutes, or custom).</p>
+            <div class="s-inline phone"><img src="img/eduverify2/setup-session.webp" alt="Start Session: Room 2 selected, class duration and sign-in and sign-out windows" loading="lazy"></div>
+          </div>
+          <div class="s-step">
+            <span class="n">06 · Live</span>
+            <h3>Go live</h3>
+            <p>Phase 1, check-in, starts counting down. Put it on the class screen with Projector mode, and watch the counters move as students arrive. Check-out opens near the end, so leaving early doesn't earn full marks.</p>
+            <div class="s-inline phone"><img src="img/eduverify2/setup-live.webp" alt="Live session in Phase 1, check-in, with a 4:55 countdown" loading="lazy"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Lecturer side -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="eyebrow" data-reveal>The lecturer's side</span>
+          <span class="eyebrow" data-reveal>During class</span>
           <h2 data-split>Watch the room <span class="serif">fill up</span></h2>
         </div>
         <p data-reveal>Tap any screen to see all six lecturer views.</p>
@@ -271,34 +337,77 @@
     </div>
   </section>
 
-  <!-- Architecture -->
+  <!-- Architecture: follow one check-in -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
       <div class="sec-head">
         <div>
           <span class="eyebrow" data-reveal>Architecture</span>
-          <h2 data-split>How the <span class="serif">pieces</span> fit</h2>
+          <h2 data-split>Follow <span class="serif">one</span> check-in</h2>
         </div>
-        <p data-reveal>The browser gathers evidence, the server judges it, and Firestore enforces who can read and write what.</p>
+        <p data-reveal>What happens in the few seconds after a student taps Check in. The phone gathers evidence, the server judges it, and the lecturer sees the result live.</p>
       </div>
-      <div class="arch" data-reveal>
-        <div class="node">
-          <small>Phone / browser</small>
-          <strong>Next.js 16 app</strong>
-          <ul><li>React 19 + Tailwind 4</li><li>MediaPipe: face quality, liveness, aligned crop</li><li>GPS best-fix sampling</li><li>Installable app with offline page</li></ul>
+
+      <div class="journey" data-journey data-reveal>
+        <div class="j-stations">
+          <div class="j-st" data-step="0">
+            <span class="j-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg></span>
+            <small>01</small><strong>Student's phone</strong><span>Next.js · MediaPipe</span>
+          </div>
+          <div class="j-st" data-step="1">
+            <span class="j-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l7.5 3v6c0 4.6-3.2 8.4-7.5 10-4.3-1.6-7.5-5.4-7.5-10v-6z"/><path d="M8.8 12l2.2 2.2 4.4-4.4"/></svg></span>
+            <small>02</small><strong>Python API</strong><span>FastAPI · DeepFace</span>
+          </div>
+          <div class="j-st" data-step="2">
+            <span class="j-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="3"/><path d="M4.5 5.5v6.5c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V5.5"/><path d="M4.5 12v6.5c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V12"/></svg></span>
+            <small>03</small><strong>Firestore</strong><span>Firebase · locked-down rules</span>
+          </div>
+          <div class="j-st" data-step="3">
+            <span class="j-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M8.5 10.5l2 2 5-5"/></svg></span>
+            <small>04</small><strong>Lecturer's screen</strong><span>Real-time listener</span>
+          </div>
+          <div class="j-track" aria-hidden="true"><span class="j-fill"></span><span class="j-dot"></span></div>
         </div>
-        <div class="link"><span class="wire"></span><span>ID token +<br>evidence</span></div>
-        <div class="node hot">
-          <small>Python API</small>
-          <strong>FastAPI</strong>
-          <ul><li>RetinaFace detection</li><li>Facenet512 embeddings (DeepFace)</li><li>Checks window, enrollment, distance, match</li><li>Writes attendance via Admin SDK</li></ul>
-        </div>
-        <div class="link"><span class="wire"></span><span>server-only<br>writes</span></div>
-        <div class="node">
-          <small>Firebase</small>
-          <strong>Auth + Firestore</strong>
-          <ul><li>Profiles, courses, sessions</li><li>Live updates to both apps</li><li>Rules: students read-only</li></ul>
-          <div class="sub"><b>face_embeddings</b><i>Server-only. No client can read it.</i></div>
+
+        <div class="j-panel">
+          <div class="j-detail" data-step="0">
+            <h4>Gathers the evidence</h4>
+            <p>The phone never decides anything. It only collects proof and sends it, signed with the student's Firebase ID token.</p>
+            <ul>
+              <li style="--i:0">Best GPS fix from a few seconds of readings <b>14 m · ±10 m</b></li>
+              <li style="--i:1">Liveness: blink, then a random head turn <b>passed</b></li>
+              <li style="--i:2">Tightly cropped, aligned face image <b>~400 px</b></li>
+            </ul>
+          </div>
+          <div class="j-detail" data-step="1">
+            <h4>Judges it, check by check</h4>
+            <p>The server re-checks everything itself. Identity comes from the token, never from what the phone claims.</p>
+            <ul>
+              <li style="--i:0">Token is valid <b>Ajayi</b></li>
+              <li style="--i:1">Check-in window is open <b>CSC411</b></li>
+              <li style="--i:2">Enrolled in this course <b>yes</b></li>
+              <li style="--i:3">Inside the classroom radius <b>14 m of 40 m</b></li>
+              <li style="--i:4">Face matches the enrolled encodings <b>83%</b></li>
+            </ul>
+          </div>
+          <div class="j-detail" data-step="2">
+            <h4>Records it, once</h4>
+            <p>Only the server can write attendance. One record per student per session, written in a transaction, so a double tap can't count twice.</p>
+            <ul>
+              <li style="--i:0">Attendance record written <b>+5 marks</b></li>
+              <li style="--i:1">Students can't create or edit records <b>rules</b></li>
+              <li style="--i:2">Face encodings kept server-only, no photos <b>private</b></li>
+            </ul>
+          </div>
+          <div class="j-detail" data-step="3">
+            <h4>Shows it live</h4>
+            <p>The lecturer's live session is listening for changes, so the check-in appears the moment it's recorded. No refresh needed.</p>
+            <ul>
+              <li style="--i:0">Ajayi moves to Live check-ins <b>In</b></li>
+              <li style="--i:1">Counters update: checked in, not yet, flags <b>1 · 1 · 0</b></li>
+              <li style="--i:2">Suspicious locations flagged for review <b>none</b></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -370,6 +479,6 @@
   <span class="lb-count"></span>
 </div>
 
-<script src="assets/js/site.js"></script>
+<script src="assets/js/site.js?v=081933b59b"></script>
 </body>
 </html>

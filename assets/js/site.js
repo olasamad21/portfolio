@@ -487,6 +487,47 @@
     }
   });
 
+  /* ---------- lecturer setup: swap the sticky phone's screen as steps scroll past ---------- */
+  $$('[data-setup]').forEach(function (wrap) {
+    var steps = $$('.s-step', wrap), shots = $$('.setup-phone img', wrap), dots = $$('.setup-dots i', wrap);
+    function set(i) {
+      steps.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+      shots.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+      dots.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+    }
+    if (!('IntersectionObserver' in window)) return;
+    var sio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) set(steps.indexOf(e.target)); });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    steps.forEach(function (s) { sio.observe(s); });
+  });
+
+  /* ---------- "follow one check-in" journey ---------- */
+  $$('[data-journey]').forEach(function (j) {
+    var sts = $$('.j-st', j), dets = $$('.j-detail', j), track = $('.j-track', j);
+    var hold = [3200, 4600, 3600, 3600];   // ms per step (the server step has the most checks)
+    var step = 0, timer = null, visible = false;
+    function show(i) {
+      step = i;
+      sts.forEach(function (s, k) { s.classList.toggle('on', k === i); s.classList.toggle('done', k < i); });
+      dets.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+      track.style.setProperty('--p', (i / (sts.length - 1) * 100) + '%');
+    }
+    function loop() {
+      clearTimeout(timer);
+      if (!visible || reduce) return;
+      timer = setTimeout(function () { show((step + 1) % sts.length); loop(); }, hold[step] || 3600);
+    }
+    sts.forEach(function (s, k) { s.addEventListener('click', function () { show(k); loop(); }); });
+    show(0);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        visible = es[0].isIntersecting;
+        if (visible) { show(0); loop(); } else clearTimeout(timer);
+      }, { threshold: 0.35 }).observe(j);
+    }
+  });
+
   /* ---------- page transitions ---------- */
   var curtain = $('.curtain');
   $$('a[href]').forEach(function (a) {
