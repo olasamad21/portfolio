@@ -86,17 +86,20 @@
         <a class="work wide" href="eduverify.html" data-reveal>
           <div class="work-media" data-cursor="Read case" data-tilt>
             <div class="inner stage teal">
-              <div class="phone tilt-l"><img src="img/eduverify/lect-classrooms.webp" alt="EduVerify lecturer classrooms screen" loading="lazy"></div>
-              <div class="phone mid" style="z-index:2"><img src="img/eduverify/stu-face.webp" alt="EduVerify face verification" loading="lazy"></div>
-              <div class="phone tilt-r"><img src="img/eduverify/stu-done.webp" alt="EduVerify attendance completed" loading="lazy"></div>
+              <div class="phone tall tilt-l" style="aspect-ratio:600/1144"><img src="img/eduverify2/lect-live.webp" alt="EduVerify lecturer live session with a student checked in" loading="lazy"></div>
+              <div class="phone tall mid" style="z-index:2;aspect-ratio:600/1144">
+                <video data-loop muted playsinline loop preload="none" poster="img/eduverify2/dashboard.webp" aria-label="Screen recording of a student checking in with EduVerify"><source src="img/eduverify2/eduverify-checkin.mp4" type="video/mp4"></video>
+              </div>
+              <div class="phone tall tilt-r" style="aspect-ratio:600/1144"><img src="img/eduverify2/checked-in.webp" alt="EduVerify: you're checked in, 83% face match" loading="lazy"></div>
             </div>
+            <span class="ph-chip"><span class="rec-dot"></span>Real app · screen recording</span>
           </div>
           <div class="work-meta">
             <div>
               <h3>EduVerify <span class="arr">↗</span></h3>
-              <p>Smart attendance with face recognition, liveness detection and GPS geofencing. Built solo, live on Vercel and Railway.</p>
+              <p>Smart attendance where the server decides: GPS best-fix sampling, face recognition with blink and head-turn liveness, tested Firestore rules, CSV/PDF reports and an installable app. Rebuilt in seven phases.</p>
             </div>
-            <div class="tags"><span class="tag dev">FastAPI</span><span class="tag">DeepFace</span><span class="tag">Firebase</span></div>
+            <div class="tags"><span class="tag dev">Next.js</span><span class="tag">FastAPI</span><span class="tag">DeepFace</span><span class="tag">Firebase</span></div>
           </div>
         </a>
 
@@ -231,7 +234,7 @@
       </div>
       <div class="skills">
         <div class="skill-card" data-reveal><h4>Languages</h4><div class="chips"><span>Python</span><span>Dart</span><span>JavaScript</span><span>HTML / CSS</span></div></div>
-        <div class="skill-card" data-reveal style="--d:.08s"><h4>Frameworks</h4><div class="chips"><span>FastAPI</span><span>Flutter</span><span>Streamlit</span><span>Tkinter</span></div></div>
+        <div class="skill-card" data-reveal style="--d:.08s"><h4>Frameworks</h4><div class="chips"><span>Next.js</span><span>React</span><span>FastAPI</span><span>Flutter</span><span>Streamlit</span><span>Tkinter</span></div></div>
         <div class="skill-card" data-reveal style="--d:.16s"><h4>Data &amp; ML</h4><div class="chips"><span>DeepFace</span><span>Data analysis</span><span>Visualization</span><span>Applied AI</span></div></div>
         <div class="skill-card" data-reveal><h4>Cloud &amp; tools</h4><div class="chips"><span>Firebase</span><span>Vercel</span><span>Railway</span><span>Git / GitHub</span><span>Jupyter</span></div></div>
         <div class="skill-card" data-reveal style="--d:.08s"><h4>Design</h4><div class="chips"><span>Figma</span><span>Wireframing</span><span>Prototyping</span></div></div>

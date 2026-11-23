@@ -462,6 +462,31 @@
     });
   }
 
+  /* ---------- before / after compare sliders ---------- */
+  $$('.compare').forEach(function (c) {
+    var input = $('input', c);
+    if (!input) return;
+    var set = function () { c.style.setProperty('--pos', input.value + '%'); };
+    input.addEventListener('input', set);
+    set();
+    // a gentle hint the first time it scrolls into view
+    if (!reduce && 'IntersectionObserver' in window) {
+      var hio = new IntersectionObserver(function (es) {
+        if (!es[0].isIntersecting) return;
+        hio.disconnect();
+        var t0 = performance.now();
+        (function nudge(t) {
+          if (input.dataset.touched) return;
+          var p = Math.min(1, (t - t0) / 1600);
+          input.value = 50 + Math.sin(p * Math.PI * 2) * 18; set();
+          if (p < 1) requestAnimationFrame(nudge);
+        })(t0);
+      }, { threshold: 0.6 });
+      hio.observe(c);
+      input.addEventListener('pointerdown', function () { input.dataset.touched = '1'; });
+    }
+  });
+
   /* ---------- page transitions ---------- */
   var curtain = $('.curtain');
   $$('a[href]').forEach(function (a) {

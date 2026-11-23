@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EduVerify · Case study · Abdulsamad Ajayi</title>
-<meta name="description" content="EduVerify: a full-stack smart attendance system using face recognition with liveness detection and GPS geofencing. Built by Abdulsamad Ajayi.">
+<meta name="description" content="EduVerify v2: smart attendance with server-verified check-ins, face recognition with liveness, GPS checks and an installable web app. Built by Abdulsamad Ajayi.">
 <meta name="theme-color" content="#0A0A0C">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><linearGradient id=%22g%22 x1=%220%22 x2=%221%22><stop offset=%220%22 stop-color=%22%235ED3D9%22/><stop offset=%22.5%22 stop-color=%22%23A493FF%22/><stop offset=%221%22 stop-color=%22%23FF8A5C%22/></linearGradient></defs><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22url(%23g)%22/><text x=%2250%22 y=%2254%22 font-family=%22Georgia,serif%22 font-style=%22italic%22 font-size=%2258%22 fill=%22%230A0A0C%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22>a</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,33 +54,38 @@
     <div class="wrap">
       <div class="hero-top">
         <a class="eyebrow link-u" href="dev-portfolio.html" data-reveal style="--d:.5s">← Software / Case study 01</a>
-        <span class="status" data-reveal style="--d:.6s"><span class="pulse"></span>Live in production</span>
+        <span class="status" data-reveal style="--d:.6s"><span class="pulse"></span>Version 2 · rebuilt Nov 2026</span>
       </div>
       <h1 data-split style="--d:.55s">Edu<span class="serif accent">Verify</span></h1>
       <div class="hero-bottom">
-        <p class="hero-lede" data-reveal style="--d:.9s">Attendance that can't be faked. Students must pass <span style="color:var(--ink)">two independent checks</span>, face and location, before they're marked present.</p>
+        <p class="hero-lede" data-reveal style="--d:.9s">Attendance that <span style="color:var(--ink)">verifies itself</span>. Students check in from their own phone in about 20 seconds, and the server only records it once their location, face and liveness all check out.</p>
         <div class="hero-actions" data-reveal style="--d:1s">
-          <a class="btn" href="https://smart-attendance-web-murex.vercel.app/" target="_blank" rel="noopener" data-magnetic=".2">Open live app <span class="arr">↗</span></a>
+          <a class="btn" href="#walkthrough" data-magnetic=".2">Watch a check-in <span class="arr">→</span></a>
+          <a class="btn ghost" href="https://smart-attendance-web-murex.vercel.app/" target="_blank" rel="noopener" data-magnetic=".2">Visit the site <span class="arr">↗</span></a>
         </div>
       </div>
       <div class="cs-meta" data-reveal style="--d:1.1s">
-        <div><small>Role</small>Solo: research, design, build &amp; deploy</div>
-        <div><small>Type</small>Full-stack web app, mobile-first</div>
-        <div><small>Stack</small>FastAPI · DeepFace · Firebase</div>
-        <div><small>Status</small>Shipped · 2026</div>
+        <div><small>Role</small>Solo: product, design, ML &amp; build</div>
+        <div><small>Platform</small>Web app you can install on a phone</div>
+        <div><small>Stack</small>Next.js 16 · FastAPI · Firebase</div>
+        <div><small>Status</small>v2 · demo-ready, 58 commits</div>
       </div>
     </div>
   </section>
 
-  <!-- Showcase -->
+  <!-- Showcase: laptop + phone -->
   <section>
     <div class="wrap">
-      <div class="showcase" data-reveal="clip">
-        <div class="stage teal">
-          <div class="phone tilt-l"><img src="img/eduverify/lect-course-detail.webp" alt="Lecturer course detail screen with a start attendance session button"></div>
-          <div class="phone" style="z-index:2"><img src="img/eduverify/stu-dashboard.webp" alt="Student dashboard showing a live session with a sign-in countdown"></div>
-          <div class="phone tilt-r"><img src="img/eduverify/stu-face.webp" alt="Face verification screen with an oval guide"></div>
+      <div class="showcase" data-reveal="clip" style="min-height:auto">
+        <div class="stage teal" style="position:relative">
+          <div class="duo">
+            <div class="laptop"><div class="lid"><img src="img/eduverify2/landing-desktop.webp" alt="EduVerify landing page: Attendance that verifies itself"></div><div class="base"></div></div>
+            <div class="phone">
+              <video data-loop muted playsinline loop preload="none" poster="img/eduverify2/dashboard.webp" aria-label="Looping screen recording of a student checking in with EduVerify"><source src="img/eduverify2/eduverify-checkin.mp4" type="video/mp4"></video>
+            </div>
+          </div>
         </div>
+        <span class="ph-chip"><span class="rec-dot"></span>Real app · recorded on my phone</span>
       </div>
     </div>
   </section>
@@ -91,85 +96,210 @@
       <div class="prose" data-reveal>
         <span class="eyebrow">The problem</span>
         <h3>Signing in for a friend takes <span class="serif">two seconds.</span></h3>
-        <p>Paper registers get passed around. Most tap-to-sign-in apps only prove that <em>someone</em> pressed a button, not that the right student is actually in the room. Lecturers lose class time and still can't trust the numbers.</p>
+        <p>Paper registers get passed around, and most tap-to-sign-in apps only prove that <em>someone</em> pressed a button, not that the right student is actually in the room. Lecturers lose class time and still can't trust the numbers.</p>
       </div>
       <div class="prose" data-reveal style="--d:.1s">
         <span class="eyebrow">The approach</span>
-        <h3>Prove <span class="serif">who</span> and prove <span class="serif">where.</span></h3>
-        <p>EduVerify asks for two independent proofs before it marks anyone present. A face match with liveness detection confirms identity, and a GPS geofence confirms the student is physically inside the classroom.</p>
-        <p>If either check fails, the attendance doesn't count.</p>
+        <h3>Prove <span class="serif">where</span>, prove <span class="serif">who</span>, and let the server decide.</h3>
+        <p>A check-in needs three things: a GPS reading inside the classroom, a face that matches, and a liveness check so a photo or video won't pass.</p>
+        <p>The phone only submits evidence. The server re-checks everything and writes the record itself, so students can't edit their own attendance.</p>
       </div>
     </div>
   </section>
 
-  <!-- How it works -->
+  <!-- Numbers -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow" data-reveal>At a glance</span>
+      <div class="stats" data-reveal style="margin-top:28px">
+        <div class="stat"><strong>~<span data-count="20">0</span><small style="font-size:.4em;letter-spacing:0;margin-left:4px">s</small></strong><span>For a student to check in</span></div>
+        <div class="stat"><strong><span data-count="3">0</span></strong><span>Independent checks per student</span></div>
+        <div class="stat"><strong><span data-count="51">0</span></strong><span>Automated tests on the security rules</span></div>
+        <div class="stat"><strong>0</strong><span>Face photos stored, only encodings</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How a check-in works -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="eyebrow" data-reveal>How it works</span>
-          <h2 data-split>Three steps,<br><span class="serif">under a minute</span></h2>
+          <span class="eyebrow" data-reveal>How a check-in works</span>
+          <h2 data-split>Three checks,<br><span class="serif">one tap</span></h2>
         </div>
-        <p data-reveal>What a student sees when a lecturer starts a live session.</p>
+        <p data-reveal>A real check-in from my phone: course CSC411, Room 2.</p>
       </div>
-      <div class="flow">
+      <div class="flow four">
         <div class="flow-step" data-reveal>
-          <span class="n">01 · Location</span>
-          <h4>Am I in the room?</h4>
-          <p>The app reads the student's GPS position and checks the Haversine distance to the classroom's geofence.</p>
-          <div class="phone"><img src="img/eduverify/stu-location.webp" alt="Getting your location screen" loading="lazy"></div>
+          <span class="n">01 · Alert</span>
+          <h4>Class is live</h4>
+          <p>The dashboard shows the open session with a countdown, plus your attendance for each course.</p>
+          <div class="phone tall" style="aspect-ratio:600/1144"><img src="img/eduverify2/dashboard.webp" alt="Student dashboard with a live session countdown" loading="lazy"></div>
         </div>
-        <div class="flow-step" data-reveal style="--d:.1s">
-          <span class="n">02 · Identity</span>
-          <h4>Is it really me?</h4>
-          <p>A selfie runs through Facenet512 and MTCNN via DeepFace, with liveness detection to block photos of photos.</p>
-          <div class="phone"><img src="img/eduverify/stu-face.webp" alt="Verify identity face scan screen" loading="lazy"></div>
+        <div class="flow-step" data-reveal style="--d:.08s">
+          <span class="n">02 · In the room</span>
+          <h4>Location</h4>
+          <p>The phone samples GPS for a few seconds and keeps the most accurate fix. Here: 14 m from Room 2.</p>
+          <div class="phone tall" style="aspect-ratio:600/1144"><img src="img/eduverify2/location.webp" alt="You're in the classroom, 14 metres from Room 2" loading="lazy"></div>
         </div>
-        <div class="flow-step" data-reveal style="--d:.2s">
-          <span class="n">03 · Confirmed</span>
-          <h4>Marked present.</h4>
-          <p>The record is written to Firestore in real time, and the lecturer's session updates instantly.</p>
-          <div class="phone"><img src="img/eduverify/stu-done.webp" alt="Attendance completed confirmation" loading="lazy"></div>
+        <div class="flow-step" data-reveal style="--d:.16s">
+          <span class="n">03 · Really them</span>
+          <h4>Face + liveness</h4>
+          <p>Blink, then turn your head to a randomly chosen side, so a printed photo or a replayed video fails.</p>
+          <div class="phone tall" style="aspect-ratio:600/1144"><img src="img/eduverify2/face-turn.webp" alt="Face scan asking the student to turn their head right" loading="lazy"></div>
+        </div>
+        <div class="flow-step" data-reveal style="--d:.24s">
+          <span class="n">04 · Recorded</span>
+          <h4>Checked in</h4>
+          <p>The server confirms it all and awards the marks: 83% face match, 14 m away, +5 marks.</p>
+          <div class="phone tall" style="aspect-ratio:600/1144"><img src="img/eduverify2/checked-in.webp" alt="You're checked in: +5 marks, 83% face match, 14 m" loading="lazy"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Two sides -->
+  <!-- Walkthrough -->
+  <section class="sec" id="walkthrough" style="padding-top:0">
+    <div class="wrap split-2" style="align-items:center">
+      <div class="prose" data-reveal>
+        <span class="eyebrow">Walkthrough</span>
+        <h3>A full check-in in <span class="serif">29 seconds.</span></h3>
+        <p>From the live session on the dashboard to the location check, the blink and head turn, the server's verdict, and the dashboard updating: attendance goes from 33% to 40%.</p>
+        <p style="color:var(--soft);font-size:15px">Recorded on my phone. Browser pop-ups and the address bar are trimmed out.</p>
+      </div>
+      <div class="reel walk-reel" data-video data-reveal style="--d:.1s">
+        <div class="reel-media" data-cursor="Play" style="aspect-ratio:600/1144">
+          <video playsinline preload="none" poster="img/eduverify2/dashboard.webp"><source src="img/eduverify2/eduverify-checkin.mp4" type="video/mp4"></video>
+          <div class="reel-ui">
+            <div><h3>Checking in to CSC411</h3><p>Location · face · liveness</p></div>
+            <button class="play-btn" aria-label="Play the check-in walkthrough"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <div class="reel-bar"><i></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lecturer side -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="eyebrow" data-reveal>Two sides, one system</span>
-          <h2 data-split>Built for <span class="serif">lecturers</span><br>and <span class="serif">students</span></h2>
+          <span class="eyebrow" data-reveal>The lecturer's side</span>
+          <h2 data-split>Watch the room <span class="serif">fill up</span></h2>
         </div>
-        <div data-reveal>
-          <div class="toggle" data-views="#ev-views" role="group" aria-label="Choose a view">
-            <span class="pill" aria-hidden="true"></span>
-            <button class="on" data-view="lecturer" aria-pressed="true">Lecturer</button>
-            <button data-view="student" aria-pressed="false">Student</button>
+        <p data-reveal>Tap any screen to see all six lecturer views.</p>
+      </div>
+      <div class="screens">
+        <figure class="screen" data-reveal style="--d:0.00s">
+          <div class="phone tall" style="aspect-ratio:600/1144" role="button" tabindex="0" data-cursor="Open" aria-label="Open lecturer screens, starting with Live at a glance" data-gallery="img/eduverify2/lect-dashboard.webp,img/eduverify2/lect-live.webp,img/eduverify2/lect-checkout.webp,img/eduverify2/lect-classrooms.webp,img/eduverify2/lect-reports.webp,img/eduverify2/lect-stats.webp" data-alt="EduVerify lecturer screen"><img src="img/eduverify2/lect-dashboard.webp" alt="Lecturer dashboard showing a live session" loading="lazy"></div>
+          <figcaption><span class="n">01 · Dashboard</span><strong>Live at a glance</strong>Open sessions up top with a countdown, then courses and students.</figcaption>
+        </figure>
+        <figure class="screen" data-reveal style="--d:0.08s">
+          <div class="phone tall" style="aspect-ratio:600/1144" role="button" tabindex="0" data-cursor="Open" aria-label="Open lecturer screens, starting with Check-ins arrive live" data-gallery="img/eduverify2/lect-live.webp,img/eduverify2/lect-checkout.webp,img/eduverify2/lect-classrooms.webp,img/eduverify2/lect-reports.webp,img/eduverify2/lect-stats.webp,img/eduverify2/lect-dashboard.webp" data-alt="EduVerify lecturer screen"><img src="img/eduverify2/lect-live.webp" alt="Live session with a student checked in" loading="lazy"></div>
+          <figcaption><span class="n">02 · Live session</span><strong>Check-ins arrive live</strong>Who’s in, who isn’t, location flags, and a projector mode for the class screen.</figcaption>
+        </figure>
+        <figure class="screen" data-reveal style="--d:0.16s">
+          <div class="phone tall" style="aspect-ratio:600/1144" role="button" tabindex="0" data-cursor="Open" aria-label="Open lecturer screens, starting with Export in one tap" data-gallery="img/eduverify2/lect-reports.webp,img/eduverify2/lect-stats.webp,img/eduverify2/lect-dashboard.webp,img/eduverify2/lect-live.webp,img/eduverify2/lect-checkout.webp,img/eduverify2/lect-classrooms.webp" data-alt="EduVerify lecturer screen"><img src="img/eduverify2/lect-reports.webp" alt="Course reports with CSV and PDF export" loading="lazy"></div>
+          <figcaption><span class="n">03 · Reports</span><strong>Export in one tap</strong>CSV or PDF for a single session or the whole semester, plus attendance trends.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow" data-reveal>Security</span>
+          <h2 data-split>Built so it <span class="serif">can't be gamed</span></h2>
+        </div>
+        <p data-reveal>Trust came first in the rebuild. Polish doesn't matter if attendance can be faked.</p>
+      </div>
+      <div class="rows">
+        <div class="row" data-reveal><span class="n">Server</span><h4>The server decides</h4><p>The browser only submits evidence: an aligned face crop and a GPS reading. The Python API checks the session window, enrollment, distance and face match, then writes the record in a transaction, so a double tap can't create two.</p></div>
+        <div class="row" data-reveal><span class="n">Identity</span><h4>Authenticated API</h4><p>Every request carries a Firebase ID token. The user's identity comes from that token, never from the request body.</p></div>
+        <div class="row" data-reveal><span class="n">Privacy</span><h4>No photos stored</h4><p>Only face encodings are kept, in a server-only collection that no client can read. Enrollment captures four poses and matches against the best one.</p></div>
+        <div class="row" data-reveal><span class="n">Rules</span><h4>Least privilege, tested</h4><p>Students read only their own data, and lecturers manage only their own courses. The Firestore rules are covered by 51 automated tests.</p></div>
+        <div class="row" data-reveal><span class="n">Location</span><h4>Spoofing gets flagged</h4><p>Readings are judged by their accuracy, and signs of fake-GPS apps or impossible travel between sessions are flagged for the lecturer to review.</p></div>
+        <div class="row" data-reveal><span class="n">Windows</span><h4>Check in and check out</h4><p>Each session has a check-in window at the start and a check-out window near the end, so leaving early doesn't earn full marks.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- v1 to v2 -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow" data-reveal>From v1 to v2</span>
+          <h2 data-split>Built it, then <span class="serif">rebuilt it</span></h2>
+        </div>
+        <p data-reveal>Drag the handles to compare the first version with today's. The rebuild ran in seven phases.</p>
+      </div>
+      <div class="compares">
+        <div class="compare-wrap" data-reveal>
+          <div class="compare">
+            <div class="pane before"><img src="img/eduverify/stu-dashboard.webp" alt="Version 1 student dashboard" loading="lazy"></div>
+            <div class="pane after"><img src="img/eduverify2/dashboard.webp" alt="Version 2 student dashboard" loading="lazy"></div>
+            <span class="tagl">v1</span><span class="tagr">v2</span><span class="handle" aria-hidden="true"></span>
+            <input type="range" min="0" max="100" value="50" aria-label="Compare version 1 and version 2 of the student dashboard">
           </div>
+          <p><strong>Student dashboard</strong>Live countdown ring, attendance % per course and clearer status.</p>
+        </div>
+        <div class="compare-wrap" data-reveal style="--d:.1s">
+          <div class="compare">
+            <div class="pane before"><img src="img/eduverify/lect-dashboard.webp" alt="Version 1 lecturer dashboard" loading="lazy"></div>
+            <div class="pane after"><img src="img/eduverify2/lect-dashboard.webp" alt="Version 2 lecturer dashboard" loading="lazy"></div>
+            <span class="tagl">v1</span><span class="tagr">v2</span><span class="handle" aria-hidden="true"></span>
+            <input type="range" min="0" max="100" value="50" aria-label="Compare version 1 and version 2 of the lecturer dashboard">
+          </div>
+          <p><strong>Lecturer dashboard</strong>Live sessions up front, with a one-tap way into the live view.</p>
         </div>
       </div>
-      <div class="showcase" data-reveal style="min-height:auto">
-        <div class="stage teal" style="position:relative;padding:clamp(40px,6vw,80px) 16px">
-          <div class="views" id="ev-views">
-            <div class="view" data-view="lecturer">
-              <div class="phone" style="--i:0"><img src="img/eduverify/lect-courses.webp" alt="Lecturer: my courses list" loading="lazy"></div>
-              <div class="phone" style="--i:1"><img src="img/eduverify/lect-dashboard.webp" alt="Lecturer dashboard" loading="lazy"></div>
-              <div class="phone" style="--i:2"><img src="img/eduverify/lect-classrooms.webp" alt="Lecturer: classrooms with GPS coordinates and radius" loading="lazy"></div>
-            </div>
-            <div class="view" data-view="student" hidden>
-              <div class="phone" style="--i:0"><img src="img/eduverify/stu-courses.webp" alt="Student: enrolled courses with a live session" loading="lazy"></div>
-              <div class="phone" style="--i:1"><img src="img/eduverify/stu-dashboard.webp" alt="Student dashboard" loading="lazy"></div>
-              <div class="phone" style="--i:2"><img src="img/eduverify/stu-done.webp" alt="Student: attendance completed" loading="lazy"></div>
-            </div>
-          </div>
-        </div>
+      <div class="timeline" data-reveal="fade">
+        <div class="tl" style="--i:0"><small>Phase 1</small><strong>Trust &amp; security</strong><span>Server-side marking, token-checked API, real Firestore rules.</span></div>
+        <div class="tl" style="--i:1"><small>Phase 2</small><strong>Face &amp; liveness</strong><span>MediaPipe quality checks, blink + head turn, multi-pose enrollment.</span></div>
+        <div class="tl" style="--i:2"><small>Phase 3</small><strong>GPS</strong><span>Best-fix sampling, accuracy-aware checks, spoofing flags.</span></div>
+        <div class="tl" style="--i:3"><small>Phase 4</small><strong>Bug fixes</strong><span>Working CSV/PDF exports, real attendance %, correct marks.</span></div>
+        <div class="tl" style="--i:4"><small>Phase 5</small><strong>Performance</strong><span>Leaner live queries and batched reads.</span></div>
+        <div class="tl" style="--i:5"><small>Phase 6</small><strong>Redesign</strong><span>Landing page, new design system, dark mode, desktop layout.</span></div>
+        <div class="tl" style="--i:6"><small>Phase 7</small><strong>Installable</strong><span>Add to home screen, app icon and an offline page.</span></div>
       </div>
-      <div class="rows" style="margin-top:56px">
-        <div class="row" data-reveal><span class="n">Lecturers</span><h4>Set up once, run every class</h4><p>Create courses with join passwords, register classrooms by GPS coordinates and radius, start timed sessions and download reports.</p></div>
-        <div class="row" data-reveal><span class="n">Students</span><h4>Sign in with a live countdown</h4><p>Join a course with a password, get a live sign-in window when class starts, and track your attendance history.</p></div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow" data-reveal>Architecture</span>
+          <h2 data-split>How the <span class="serif">pieces</span> fit</h2>
+        </div>
+        <p data-reveal>The browser gathers evidence, the server judges it, and Firestore enforces who can read and write what.</p>
+      </div>
+      <div class="arch" data-reveal>
+        <div class="node">
+          <small>Phone / browser</small>
+          <strong>Next.js 16 app</strong>
+          <ul><li>React 19 + Tailwind 4</li><li>MediaPipe: face quality, liveness, aligned crop</li><li>GPS best-fix sampling</li><li>Installable app with offline page</li></ul>
+        </div>
+        <div class="link"><span class="wire"></span><span>ID token +<br>evidence</span></div>
+        <div class="node hot">
+          <small>Python API</small>
+          <strong>FastAPI</strong>
+          <ul><li>RetinaFace detection</li><li>Facenet512 embeddings (DeepFace)</li><li>Checks window, enrollment, distance, match</li><li>Writes attendance via Admin SDK</li></ul>
+        </div>
+        <div class="link"><span class="wire"></span><span>server-only<br>writes</span></div>
+        <div class="node">
+          <small>Firebase</small>
+          <strong>Auth + Firestore</strong>
+          <ul><li>Profiles, courses, sessions</li><li>Live updates to both apps</li><li>Rules: students read-only</li></ul>
+          <div class="sub"><b>face_embeddings</b><i>Server-only. No client can read it.</i></div>
+        </div>
       </div>
     </div>
   </section>
@@ -177,22 +307,15 @@
   <!-- Stack -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="eyebrow" data-reveal>Under the hood</span>
-          <h2 data-split>The <span class="serif">stack</span></h2>
-        </div>
-        <p data-reveal>Designed and built solo with an AI-assisted workflow, from research and planning through to deployment.</p>
-      </div>
       <div class="stack-grid" data-reveal>
-        <div><small>Frontend</small><strong>Web app</strong><span>Mobile-first, deployed on Vercel</span></div>
-        <div><small>Backend</small><strong>FastAPI + Python</strong><span>ML pipeline on Railway</span></div>
-        <div><small>Face ML</small><strong>DeepFace</strong><span>Facenet512 · MTCNN · liveness</span></div>
-        <div><small>Data &amp; auth</small><strong>Firebase</strong><span>Firestore + Auth, real time</span></div>
-        <div><small>Location</small><strong>Geofencing</strong><span>Haversine distance checks</span></div>
-        <div><small>Roles</small><strong>2 apps in 1</strong><span>Lecturer and student flows</span></div>
-        <div><small>Workflow</small><strong>AI-assisted</strong><span>Claude, ChatGPT, Cursor</span></div>
-        <div><small>Status</small><strong>Live</strong><span><a class="link-u" href="https://smart-attendance-web-murex.vercel.app/" target="_blank" rel="noopener">Open the app ↗</a></span></div>
+        <div><small>Frontend</small><strong>Next.js 16</strong><span>React 19, Tailwind 4, Zustand</span></div>
+        <div><small>Face (browser)</small><strong>MediaPipe</strong><span>Landmarks, blink + head turn</span></div>
+        <div><small>Face (server)</small><strong>DeepFace</strong><span>RetinaFace + Facenet512</span></div>
+        <div><small>API</small><strong>FastAPI</strong><span>Token-checked, Admin SDK</span></div>
+        <div><small>Data &amp; auth</small><strong>Firebase</strong><span>Firestore + Auth, 51 rule tests</span></div>
+        <div><small>Maps</small><strong>Leaflet</strong><span>Classroom placement and radius</span></div>
+        <div><small>Reports</small><strong>jsPDF + CSV</strong><span>Per session or per semester</span></div>
+        <div><small>Hosting</small><strong>Vercel + tunnel</strong><span>Site on Vercel, API runs for demos</span></div>
       </div>
     </div>
   </section>
@@ -203,7 +326,7 @@
       <span class="eyebrow" data-reveal>Keep exploring</span>
       <div class="next-page" style="margin-top:28px">
         <a class="np" href="campus-navigator.html" style="--c:#7FA2FF" data-reveal><small>Case study 02</small><h3>Campus Navigator <span>→</span></h3></a>
-        <a class="np" href="uiux-portfolio.html" style="--c:var(--design);--d:.1s" data-reveal><small>Next discipline</small><h3>UI/UX design <span>→</span></h3></a>
+        <a class="np" href="gradual.html" style="--c:#5BD687;--d:.1s" data-reveal><small>Case study 03</small><h3>Gradual <span>→</span></h3></a>
       </div>
     </div>
   </section>
@@ -238,6 +361,14 @@
     </div>
   </div>
 </footer>
+
+<div class="lightbox" role="dialog" aria-modal="true" aria-label="Screen viewer">
+  <div class="lb-stage"><img alt=""></div>
+  <button class="lb-btn lb-close" aria-label="Close">✕</button>
+  <button class="lb-btn lb-prev" aria-label="Previous">←</button>
+  <button class="lb-btn lb-next" aria-label="Next">→</button>
+  <span class="lb-count"></span>
+</div>
 
 <script src="assets/js/site.js"></script>
 </body>
