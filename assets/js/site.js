@@ -487,6 +487,45 @@
     }
   });
 
+  /* ---------- hero project deck: front phone plays, the deck rotates ---------- */
+  $$('[data-deck]').forEach(function (deck) {
+    var cards = $$('.deck-card', deck), texts = $$('.deck-text', deck), dots = $$('.deck-dots button', deck);
+    var n = cards.length, front = 0, timer = null, visible = false, paused = false;
+    function layout() {
+      cards.forEach(function (c, i) {
+        var slot = (i - front + n) % n;
+        c.setAttribute('data-slot', slot);
+        c.setAttribute('tabindex', slot === 0 ? '0' : '-1');
+        var v = $('video', c);
+        if (slot === 0 && visible && !reduce) {
+          var st = parseFloat(v.dataset.start || 0);
+          if (st && v.currentTime < st) {
+            if (v.readyState >= 1) v.currentTime = st;
+            else v.addEventListener('loadedmetadata', function once() { v.removeEventListener('loadedmetadata', once); v.currentTime = st; });
+          }
+          v.play().catch(function () {});
+        } else { v.pause(); }
+      });
+      texts.forEach(function (t, i) { t.classList.toggle('on', i === front); });
+      dots.forEach(function (d, i) { d.classList.toggle('on', i === front); });
+    }
+    function restart() {
+      clearTimeout(timer);
+      if (visible && !paused && !reduce) timer = setTimeout(function () { go(front + 1); }, 7000);
+    }
+    function go(i) { front = (i + n) % n; layout(); restart(); }
+    cards.forEach(function (c, i) {
+      c.addEventListener('click', function (e) { if (i !== front) { e.preventDefault(); go(i); } });
+    });
+    dots.forEach(function (d, i) { d.addEventListener('click', function () { go(i); }); });
+    deck.addEventListener('mouseenter', function () { paused = true; clearTimeout(timer); });
+    deck.addEventListener('mouseleave', function () { paused = false; restart(); });
+    layout();
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { visible = es[0].isIntersecting; layout(); restart(); }, { threshold: 0.25 }).observe(deck);
+    }
+  });
+
   /* ---------- lecturer setup: swap the sticky phone's screen as steps scroll past ---------- */
   $$('[data-setup]').forEach(function (wrap) {
     var steps = $$('.s-step', wrap), shots = $$('.setup-phone img', wrap), dots = $$('.setup-dots i', wrap);
