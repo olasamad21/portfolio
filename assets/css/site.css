@@ -994,3 +994,9 @@ section{ position:relative; }
 @media (max-width:420px){ .journey.five .j-st small{ display:none; } }
 .journey.five .j-panel{ min-height:250px; }
 @media (max-width:860px){ .journey.five .j-panel{ min-height:500px; } }
+
+/* APK download button */
+.dl-ic{ width:18px; height:18px; }
+.btn-sub{ font-family:var(--mono); font-size:11px; opacity:.6; margin-left:2px; }
+.dl-note{ margin-top:14px; font-size:13px; color:var(--soft); max-width:52ch; }
+.dl-note a{ color:var(--ink-2); }
